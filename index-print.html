@@ -1,0 +1,661 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Tejas Porwal — Print</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  --ink: #1b1f2e;
+  --ink-deep: #0f1220;
+  --ink-line: #3a4056;
+  --cream: #f8f4ea;
+  --paper: #fdfbf4;
+  --rule: #dcd5c3;
+  --muted: #6b6f85;
+  --body: #2a2e45;
+  --amber: #d99a3e;
+  --amber-ink: #a66918;
+  --serif: 'Fraunces', Georgia, serif;
+  --sans: 'Instrument Sans', system-ui, sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body { font-family: var(--sans); color: var(--body); background: var(--cream); font-size: 11pt; line-height: 1.5; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+h1, h2, h3 { font-family: var(--serif); font-weight: 400; letter-spacing: -0.015em; margin: 0; }
+p { margin: 0 0 0.8em; }
+
+.eyebrow { font-family: var(--mono); font-size: 8.5pt; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
+
+/* ---------- PAGE 1 — COVER ---------- */
+.page {
+  width: 100%;
+  padding: 0;
+  break-after: page;
+  position: relative;
+}
+.page:last-child { break-after: auto; }
+
+.cover {
+  background: var(--ink);
+  color: #efe8d6;
+  min-height: 100vh;
+  padding: 60pt 60pt 50pt;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+}
+.cover::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, rgba(58,64,86,0.5) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(58,64,86,0.5) 1px, transparent 1px);
+  background-size: 60pt 60pt;
+  opacity: 0.3;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, black 40%, transparent 90%);
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, black 40%, transparent 90%);
+}
+.cover-top { position: relative; z-index: 2; display: flex; justify-content: space-between; align-items: center; font-family: var(--mono); font-size: 8pt; letter-spacing: 0.22em; text-transform: uppercase; color: #b0a485; }
+.brand { font-family: var(--serif); font-size: 14pt; display: flex; align-items: center; gap: 10pt; }
+.brand-mark { width: 18pt; height: 18pt; border: 0.8pt solid currentColor; display: inline-grid; place-items: center; font-family: var(--mono); font-size: 8pt; line-height: 1; }
+
+.cover-center { position: relative; z-index: 2; flex: 1; display: flex; flex-direction: column; justify-content: center; }
+.cover-eyebrow { display: inline-flex; align-items: center; gap: 10pt; font-family: var(--mono); font-size: 8pt; letter-spacing: 0.22em; text-transform: uppercase; color: #c2aa72; margin-bottom: 18pt; }
+.cover-eyebrow::before { content: ''; width: 22pt; height: 1px; background: var(--amber); }
+.cover h1 {
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: 52pt;
+  line-height: 1;
+  letter-spacing: -0.025em;
+  color: #e5dcc6;
+}
+.cover h1 .em { font-style: italic; color: var(--amber); font-weight: 400; }
+.cover .sub {
+  margin-top: 22pt;
+  max-width: 460pt;
+  font-size: 12pt;
+  line-height: 1.5;
+  color: #bdb39a;
+}
+
+.cover-nodes {
+  position: absolute;
+  right: -20pt;
+  top: 45%;
+  width: 240pt;
+  height: 240pt;
+  z-index: 1;
+  transform: translateY(-50%);
+  opacity: 0.85;
+}
+.cover-nodes svg { width: 100%; height: 100%; }
+
+.cover-bottom { position: relative; z-index: 2; display: flex; justify-content: space-between; align-items: flex-end; font-family: var(--mono); font-size: 8pt; letter-spacing: 0.15em; text-transform: uppercase; color: #7a7560; }
+.cover-bottom strong { display: block; color: #c2b693; font-weight: 500; margin-bottom: 3pt; font-size: 8pt; }
+.cover-bottom .labels { display: flex; gap: 36pt; }
+.cover-bottom .dot { width: 5pt; height: 5pt; border-radius: 50%; background: var(--amber); display: inline-block; margin-right: 6pt; vertical-align: middle; }
+
+/* ---------- INTERIOR PAGES ---------- */
+.sheet {
+  padding: 50pt 60pt;
+  background: var(--cream);
+  min-height: 100vh;
+}
+.sheet-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding-bottom: 12pt;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 32pt;
+}
+.sheet-head .title-mini { font-family: var(--mono); font-size: 8pt; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
+.sheet-head .pg { font-family: var(--mono); font-size: 8pt; letter-spacing: 0.15em; color: var(--muted); }
+
+.section-head { display: grid; grid-template-columns: 120pt 1fr; gap: 30pt; align-items: baseline; padding-bottom: 24pt; }
+.section-head h2 { font-weight: 400; font-size: 24pt; line-height: 1.1; letter-spacing: -0.018em; }
+.section-head h2 em { font-style: italic; color: var(--amber-ink); }
+
+/* Narrative */
+.narrative-body {
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: 18pt;
+  line-height: 1.4;
+  color: #1e2238;
+  max-width: 520pt;
+  margin: 0 auto;
+  padding: 60pt 0 40pt;
+}
+.narrative-body em { color: var(--amber-ink); font-style: italic; }
+.narrative-body p { margin-bottom: 0.7em; }
+.narrative-body .sig { font-family: var(--sans); font-size: 9pt; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 20pt; display: block; }
+
+/* Timeline */
+.timeline { border-top: 1px solid var(--rule); }
+.tl-row { display: grid; grid-template-columns: 90pt 1fr 1fr; gap: 24pt; padding: 18pt 0; border-bottom: 1px solid var(--rule); align-items: start; break-inside: avoid; }
+.tl-year { font-family: var(--mono); font-size: 9pt; color: var(--muted); padding-top: 3pt; letter-spacing: 0.04em; }
+.tl-title { font-family: var(--serif); font-size: 14pt; font-weight: 400; line-height: 1.2; color: var(--ink-deep); }
+.tl-title .sub { font-family: var(--sans); font-size: 9pt; color: var(--muted); display: block; margin-top: 3pt; }
+.tl-desc { font-size: 10pt; line-height: 1.5; color: var(--body); }
+
+/* Awards */
+.awards-sheet { background: var(--ink); color: #e5dcc6; }
+.awards-sheet .sheet-head { border-bottom-color: var(--ink-line); }
+.awards-sheet .sheet-head .title-mini, .awards-sheet .sheet-head .pg { color: #7a7560; }
+.awards-sheet h2 { color: #efe8d6; font-weight: 300; }
+.awards-sheet .eyebrow { color: #a89c7e; }
+.awards-grid {
+  margin-top: 30pt;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  border-top: 1px solid var(--ink-line);
+}
+.award-item {
+  padding: 16pt 0;
+  border-bottom: 1px solid var(--ink-line);
+  display: flex;
+  align-items: baseline;
+  gap: 18pt;
+  padding-right: 24pt;
+}
+.award-item:nth-child(even) { padding-right: 0; padding-left: 24pt; }
+.award-item .mark { color: var(--amber); font-family: var(--mono); font-size: 8pt; letter-spacing: 0.15em; text-transform: uppercase; min-width: 18pt; }
+.award-item .txt { font-family: var(--serif); font-size: 13pt; font-weight: 300; color: #d9cfb5; line-height: 1.3; }
+
+/* Projects */
+.projects-sheet { padding-top: 40pt; }
+.proj-intro {
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: 18pt;
+  line-height: 1.35;
+  color: #1e2238;
+  max-width: 520pt;
+  margin-bottom: 34pt;
+}
+.proj-intro em { color: var(--amber-ink); font-style: italic; }
+
+.proj-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18pt 22pt;
+}
+.proj {
+  break-inside: avoid;
+  border: 1px solid var(--rule);
+  background: var(--paper);
+  padding: 16pt 18pt;
+  display: flex;
+  flex-direction: column;
+  gap: 7pt;
+}
+.proj .num { font-family: var(--mono); font-size: 8pt; color: var(--amber-ink); letter-spacing: 0.15em; }
+.proj .client { font-family: var(--mono); font-size: 7.5pt; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.proj h3 { font-size: 13pt; line-height: 1.2; margin-top: 2pt; }
+.proj p { font-size: 9.5pt; line-height: 1.5; margin-bottom: 0.4em; }
+.proj .tags { display: flex; flex-wrap: wrap; gap: 4pt; margin-top: auto; padding-top: 6pt; }
+.proj .tag { font-family: var(--mono); font-size: 7pt; letter-spacing: 0.06em; text-transform: uppercase; padding: 2pt 6pt; border: 1px solid var(--rule); color: var(--muted); }
+
+/* Lab */
+.lab-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12pt;
+  margin-top: 12pt;
+}
+.lab-card {
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  padding: 12pt 14pt;
+  break-inside: avoid;
+  display: flex;
+  flex-direction: column;
+  gap: 5pt;
+  min-height: 100pt;
+}
+.lab-card.wip { border-style: dashed; background: repeating-linear-gradient(45deg, var(--paper) 0 6pt, #f1ead6 6pt 12pt); }
+.lab-head { display: flex; justify-content: space-between; align-items: center; }
+.lab-status { font-family: var(--mono); font-size: 7pt; letter-spacing: 0.12em; text-transform: uppercase; padding: 2pt 7pt; border-radius: 10pt; }
+.status-live { background: #d6e7cc; color: #3c5a28; }
+.status-proto { background: #e9d9b6; color: #7a5a1a; }
+.status-archive { background: #ddd6c5; color: var(--muted); }
+.status-wip { background: #d4d8e7; color: #3a4266; }
+.lab-card h3 { font-size: 12pt; line-height: 1.15; }
+.lab-card p { font-size: 9pt; line-height: 1.45; margin: 0; }
+.lab-meta { margin-top: auto; font-family: var(--mono); font-size: 7pt; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); padding-top: 5pt; border-top: 1px dashed var(--rule); display: flex; justify-content: space-between; gap: 6pt; }
+.chip { font-family: var(--mono); font-size: 7pt; letter-spacing: 0.05em; text-transform: uppercase; padding: 1pt 5pt; background: rgba(217,154,62,0.15); color: var(--amber-ink); margin-right: 3pt; display: inline-block; }
+
+/* Thoughts */
+.thoughts-sheet { padding-top: 40pt; }
+.post-row { display: grid; grid-template-columns: 80pt 1fr 60pt; gap: 24pt; padding: 18pt 0; border-bottom: 1px solid var(--rule); align-items: baseline; break-inside: avoid; }
+.post-row .p-date { font-family: var(--mono); font-size: 9pt; color: var(--muted); letter-spacing: 0.08em; }
+.post-row .p-title { font-family: var(--serif); font-size: 14pt; font-weight: 400; line-height: 1.2; color: var(--ink-deep); }
+.post-row .p-hook { font-size: 10pt; margin-top: 5pt; color: var(--body); max-width: 340pt; line-height: 1.5; }
+.post-row .p-state { font-family: var(--mono); font-size: 7.5pt; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); padding: 2pt 8pt; border: 1px solid var(--rule); border-radius: 10pt; text-align: center; }
+.post-row.published .p-state { color: #3c5a28; border-color: #a5b998; }
+.post-row.draft .p-state { color: var(--amber-ink); border-color: #cfa96a; }
+
+/* Contact */
+.contact-sheet { min-height: 100vh; display: flex; flex-direction: column; }
+.contact-body { flex: 1; display: grid; grid-template-columns: 1.2fr 1fr; gap: 40pt; padding-top: 30pt; }
+.contact-body h2 { font-weight: 300; font-size: 28pt; line-height: 1.05; }
+.contact-body h2 em { font-style: italic; color: var(--amber-ink); }
+.contact-body .lead { margin-top: 18pt; font-size: 11pt; line-height: 1.55; max-width: 340pt; }
+.contact-body ul { padding-left: 14pt; font-size: 10pt; line-height: 1.5; }
+.contact-body ul strong { color: var(--ink-deep); font-weight: 500; }
+.channels { border: 1px solid var(--rule); background: var(--paper); }
+.channel { padding: 14pt 16pt; border-bottom: 1px solid var(--rule); display: flex; justify-content: space-between; align-items: baseline; }
+.channel:last-child { border-bottom: 0; }
+.channel .label { font-family: var(--mono); font-size: 8pt; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
+.channel .value { font-family: var(--serif); font-size: 13pt; color: var(--ink-deep); }
+.contact-closer { font-family: var(--serif); font-style: italic; color: var(--muted); margin-top: 18pt; }
+
+.foot { padding-top: 24pt; margin-top: auto; border-top: 1px solid var(--rule); display: flex; justify-content: space-between; font-size: 9pt; color: var(--muted); font-family: var(--mono); letter-spacing: 0.1em; text-transform: uppercase; }
+
+/* --- print rules --- */
+@page {
+  size: A4;
+  margin: 0;
+}
+@media print {
+  body { background: var(--cream); }
+  .page, .cover, .sheet, .awards-sheet { min-height: 100vh; }
+  .cover, .awards-sheet { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== PAGE 1: COVER ===== -->
+<div class="page">
+  <div class="cover">
+    <div class="cover-top">
+      <div class="brand"><span class="brand-mark">TP</span><span>Tejas Porwal</span></div>
+      <div>Personal Dossier · 2026</div>
+    </div>
+
+    <div class="cover-nodes">
+      <svg viewBox="0 0 400 400">
+        <g stroke="#3a4056" stroke-width="0.5" opacity="0.6">
+          <line x1="60" y1="80" x2="200" y2="200"/><line x1="80" y1="180" x2="200" y2="200"/>
+          <line x1="50" y1="280" x2="200" y2="200"/><line x1="120" y1="340" x2="200" y2="200"/>
+          <line x1="140" y1="60" x2="200" y2="200"/>
+        </g>
+        <g stroke="#d99a3e" stroke-width="1" opacity="0.7">
+          <line x1="340" y1="90" x2="200" y2="200"/><line x1="360" y1="200" x2="200" y2="200"/>
+          <line x1="330" y1="310" x2="200" y2="200"/><line x1="260" y1="350" x2="200" y2="200"/>
+          <line x1="280" y1="70" x2="200" y2="200"/>
+        </g>
+        <g fill="#a0c2e0">
+          <circle cx="60" cy="80" r="3"/><circle cx="80" cy="180" r="3"/>
+          <circle cx="50" cy="280" r="3"/><circle cx="120" cy="340" r="3"/>
+          <circle cx="140" cy="60" r="3"/>
+        </g>
+        <g fill="#d99a3e">
+          <circle cx="340" cy="90" r="3"/><circle cx="360" cy="200" r="3"/>
+          <circle cx="330" cy="310" r="3"/><circle cx="260" cy="350" r="3"/>
+          <circle cx="280" cy="70" r="3"/>
+        </g>
+        <circle cx="200" cy="200" r="7" fill="#d99a3e"/>
+        <circle cx="200" cy="200" r="14" fill="none" stroke="#d99a3e" stroke-width="0.7" opacity="0.4"/>
+      </svg>
+    </div>
+
+    <div class="cover-center">
+      <div class="cover-eyebrow">Tejas Porwal · New Delhi / GCC</div>
+      <h1>I build AI systems.<br/>I design national strategies.<br/>I start companies.<br/><span class="em">I do all three.</span></h1>
+      <p class="sub">Engineer, consultant, and founder — working at the intersection of deep technology and high-stakes strategy. Ship AI to twenty million phones in one chapter, and shape twenty-five-billion-dollar national roadmaps in the next.</p>
+    </div>
+
+    <div class="cover-bottom">
+      <div class="labels">
+        <span><strong>Engineering</strong>Samsung SRI — compilers, camera AI</span>
+        <span><strong>Strategy</strong>Oliver Wyman — central banks, GCC policy</span>
+      </div>
+      <div><span class="dot"></span>Available for conversation</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PAGE 2: NARRATIVE + TIMELINE ===== -->
+<div class="page">
+  <div class="sheet">
+    <div class="sheet-head">
+      <div class="title-mini">About · A short story</div>
+      <div class="pg">02 / 07</div>
+    </div>
+
+    <div class="narrative-body">
+      <p>I started as an engineer — building camera AI at Samsung, optimizing neural networks, publishing research on <em>AQI drones</em>. Then I went to IIM Bangalore, spent a summer at Kearney, and joined Oliver Wyman.</p>
+      <p>Now I design supervisory systems for central banks and investment roadmaps for governments by day, and <em>build things with AI</em> at night.</p>
+      <p>This site is where I keep track of both.</p>
+      <span class="sig">— TP</span>
+    </div>
+
+    <div class="section-head" style="padding-top: 10pt;">
+      <p class="eyebrow">§ 01 / Trajectory</p>
+      <h2>Academic &amp; professional timeline — the shape of a winding, <em>deliberate</em> path.</h2>
+    </div>
+
+    <div class="timeline">
+      <div class="tl-row"><div class="tl-year">2013 – 2015</div><div class="tl-title">The Chintels School<span class="sub">Class X → XII</span></div><div class="tl-desc">Class X: 95.5%, school rank 1. Class XII: 98.2%, AIR 3, UP State Rank 1 out of 25,000+.</div></div>
+      <div class="tl-row"><div class="tl-year">2016 – 2020</div><div class="tl-title">B.Tech, ECE<span class="sub">Delhi Technological University</span></div><div class="tl-desc">81.6%, top 10%. Started first companies — Recursion Academy and Bookscroll.</div></div>
+      <div class="tl-row"><div class="tl-year">2020 – 2022</div><div class="tl-title">Senior AI/ML Engineer<span class="sub">Samsung Semiconductor India Research</span></div><div class="tl-desc">Shipped CNN/RNN camera features to 20M+ users on Samsung S-series. Patent-pending compiler and cache optimizations.</div></div>
+      <div class="tl-row"><div class="tl-year">2022 – 2024</div><div class="tl-title">MBA<span class="sub">IIM Bangalore</span></div><div class="tl-desc">CGPA 3.34/4.0, top 15%. Summer Associate at Kearney: GCC card scheme, 20%+ merchant-fee savings.</div></div>
+      <div class="tl-row"><div class="tl-year">2024 — Now</div><div class="tl-title">Management Consultant<span class="sub">Oliver Wyman</span></div><div class="tl-desc">GCC central-bank supervisory platform. $25B+ national technology roadmap. 270%+ insurance revenue growth.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PAGE 3: AWARDS ===== -->
+<div class="page">
+  <div class="sheet awards-sheet">
+    <div class="sheet-head">
+      <div class="title-mini">Recognition · Awards & Honors</div>
+      <div class="pg">03 / 07</div>
+    </div>
+
+    <div class="section-head" style="padding-top: 20pt;">
+      <p class="eyebrow">§ 02 / Recognition</p>
+      <h2>Selected awards, grants, and honors — the short list.</h2>
+    </div>
+
+    <div class="awards-grid">
+      <div class="award-item"><span class="mark">01</span><span class="txt">International Winner — Amazon Innovation Challenge</span></div>
+      <div class="award-item"><span class="mark">02</span><span class="txt">International Winner — Rubicon Just a Minute</span></div>
+      <div class="award-item"><span class="mark">03</span><span class="txt">Global Finalist — Crown Jewel</span></div>
+      <div class="award-item"><span class="mark">04</span><span class="txt">Samsung Spot Award (₹ 1.5L+)</span></div>
+      <div class="award-item"><span class="mark">05</span><span class="txt">INSPIRE Scholar, Government of India</span></div>
+      <div class="award-item"><span class="mark">06</span><span class="txt">Delhi State Grantee — AQI drone research</span></div>
+      <div class="award-item"><span class="mark">07</span><span class="txt">IEEE International Author</span></div>
+      <div class="award-item"><span class="mark">08</span><span class="txt">AIR 3, ISC Class XII · 2015</span></div>
+    </div>
+
+    <div style="margin-top: 60pt; font-family: var(--serif); font-style: italic; font-size: 14pt; color: #bdb39a; max-width: 400pt;">
+      "Evidence, not buzzwords." — The site's editorial policy, in three words.
+    </div>
+  </div>
+</div>
+
+<!-- ===== PAGE 4: WORK ===== -->
+<div class="page">
+  <div class="sheet projects-sheet">
+    <div class="sheet-head">
+      <div class="title-mini">Work · Selected projects</div>
+      <div class="pg">04 / 07</div>
+    </div>
+
+    <div class="section-head">
+      <p class="eyebrow">§ 03 / Work</p>
+      <h2>Some of the problems I've worked on. Strategy and engineering aren't that different — both start with <em>understanding the system</em>.</h2>
+    </div>
+
+    <div class="proj-grid">
+      <div class="proj">
+        <span class="num">#01</span>
+        <div class="client">Oliver Wyman · GCC IT Ministry</div>
+        <h3>National Technology Investment Roadmap</h3>
+        <p>Screened 150 technologies against a country-specific framework. Prioritized ten for national focus. Shaped a <strong>$25B+ investment strategy</strong> and long-term technology policy.</p>
+        <div class="tags"><span class="tag">Consulting</span><span class="tag">Public Sector</span></div>
+      </div>
+      <div class="proj">
+        <span class="num">#02</span>
+        <div class="client">Oliver Wyman · GCC Central Bank</div>
+        <h3>Central Bank Supervisory Platform</h3>
+        <p>Target-state workflows, governance model, and KPIs for a supervisor overseeing <strong>$700B+ in financial institutions</strong>.</p>
+        <div class="tags"><span class="tag">Consulting</span><span class="tag">RegTech</span></div>
+      </div>
+      <div class="proj">
+        <span class="num">#03</span>
+        <div class="client">Oliver Wyman · Indian P&amp;C Insurer</div>
+        <h3>Bancassurance Growth Strategy</h3>
+        <p>Rebuilt channel unit economics, incentive design, and phased rollout. Unlocked <strong>270%+ revenue growth in three months</strong>.</p>
+        <div class="tags"><span class="tag">Consulting</span><span class="tag">Insurance</span></div>
+      </div>
+      <div class="proj">
+        <span class="num">#04</span>
+        <div class="client">Samsung Semiconductor India Research</div>
+        <h3>Neural Network Compiler Optimizations</h3>
+        <p>Patent-pending compiler and cache optimizations for deep-learning inference. Improved benchmark performance and efficiency by <strong>15%+</strong>.</p>
+        <div class="tags"><span class="tag">Engineering</span><span class="tag">AI/ML</span></div>
+      </div>
+      <div class="proj">
+        <span class="num">#05</span>
+        <div class="client">Samsung Semiconductor India Research</div>
+        <h3>Camera AI for Samsung S-series</h3>
+        <p>CNN/RNN-based camera features shipped across Samsung S-series. Reached <strong>20M+ users</strong> and a <strong>₹4,000 Cr+</strong> portfolio.</p>
+        <div class="tags"><span class="tag">Engineering</span><span class="tag">Mobile AI</span></div>
+      </div>
+      <div class="proj">
+        <span class="num">#06</span>
+        <div class="client">Kearney</div>
+        <h3>GCC Card-Scheme Design</h3>
+        <p>Facilitated domestic card scheme for a <strong>$119B payment market</strong>. Identified <strong>20%+ merchant-fee savings</strong>.</p>
+        <div class="tags"><span class="tag">Consulting</span><span class="tag">Fintech</span></div>
+      </div>
+      <div class="proj">
+        <span class="num">#07</span>
+        <div class="client">Delhi Technological University · IEEE</div>
+        <h3>AQI Monitoring via Solar-Powered UAV</h3>
+        <p>Designed a solar-powered UAV for continuous air-quality monitoring. <strong>IEEE publication</strong>; ₹1.5L Delhi State Grant.</p>
+        <div class="tags"><span class="tag">Research</span><span class="tag">Robotics</span></div>
+      </div>
+      <div class="proj">
+        <span class="num">#08</span>
+        <div class="client">Co-Founder</div>
+        <h3>Recursion Academy</h3>
+        <p>Income-share tech bootcamp. <strong>DTU-IIF Top 5 Startup</strong> at ₹1.2 Cr. 50+ paid learners placed at Microsoft, Adobe.</p>
+        <div class="tags"><span class="tag">Startup</span><span class="tag">Ed-Tech</span></div>
+      </div>
+      <div class="proj">
+        <span class="num">#09</span>
+        <div class="client">Co-Founder</div>
+        <h3>Bookscroll</h3>
+        <p>Peer-to-peer student marketplace. <strong>400+ paying users</strong>, ₹1.6L revenue in 18 months, up to <strong>95% cost reduction</strong>.</p>
+        <div class="tags"><span class="tag">Startup</span><span class="tag">Marketplace</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PAGE 5: LAB ===== -->
+<div class="page">
+  <div class="sheet">
+    <div class="sheet-head">
+      <div class="title-mini">Lab · The Build Log</div>
+      <div class="pg">05 / 07</div>
+    </div>
+
+    <div class="section-head">
+      <p class="eyebrow">§ 04 / Lab</p>
+      <h2>I use AI the way some people use a <em>workshop</em> — to make things I want to exist.</h2>
+    </div>
+
+    <p style="max-width: 460pt; font-size: 11pt; margin-bottom: 20pt;">Small tools, automations, and experiments. Some are useful; some are just curiosity. All are real — built in evenings and weekends, usually with an LLM looking over my shoulder. Here's what's on the bench.</p>
+
+    <div class="lab-grid">
+      <div class="lab-card">
+        <div class="lab-head"><span style="font-family: var(--mono); font-size: 7pt; color: var(--muted);">03/26</span><span class="lab-status status-live">Live</span></div>
+        <h3>Brief.md</h3>
+        <p>Turns a 60-min exec call transcript into a one-page consulting brief — problem, hypotheses, next steps.</p>
+        <div><span class="chip">Claude</span><span class="chip">Whisper</span></div>
+        <div class="lab-meta"><span>Personal tool</span></div>
+      </div>
+      <div class="lab-card">
+        <div class="lab-head"><span style="font-family: var(--mono); font-size: 7pt; color: var(--muted);">02/26</span><span class="lab-status status-live">Live</span></div>
+        <h3>Source-check</h3>
+        <p>Ranks each claim in a paragraph by how well its cited source actually supports it.</p>
+        <div><span class="chip">Claude</span><span class="chip">TS</span></div>
+        <div class="lab-meta"><span>Public beta</span></div>
+      </div>
+      <div class="lab-card">
+        <div class="lab-head"><span style="font-family: var(--mono); font-size: 7pt; color: var(--muted);">02/26</span><span class="lab-status status-proto">Prototype</span></div>
+        <h3>Chart-to-slide</h3>
+        <p>Messy Excel range in; clean executive slide out. Right chart, headline, footnotes.</p>
+        <div><span class="chip">Claude</span><span class="chip">python-pptx</span></div>
+        <div class="lab-meta"><span>Personal</span></div>
+      </div>
+      <div class="lab-card">
+        <div class="lab-head"><span style="font-family: var(--mono); font-size: 7pt; color: var(--muted);">01/26</span><span class="lab-status status-live">Live</span></div>
+        <h3>Morning rate feed</h3>
+        <p>7am Telegram digest: rate curves, oil, USD/SAR, three hand-picked headlines. Daily since Jun'25.</p>
+        <div><span class="chip">FRED</span><span class="chip">Node</span></div>
+        <div class="lab-meta"><span>Private</span></div>
+      </div>
+      <div class="lab-card">
+        <div class="lab-head"><span style="font-family: var(--mono); font-size: 7pt; color: var(--muted);">12/25</span><span class="lab-status status-proto">Prototype</span></div>
+        <h3>Frame-pack</h3>
+        <p>An LLM-native way to reason about business frameworks — proposes fits, warns of misleads.</p>
+        <div><span class="chip">Claude</span><span class="chip">TS</span></div>
+        <div class="lab-meta"><span>Experimental</span></div>
+      </div>
+      <div class="lab-card">
+        <div class="lab-head"><span style="font-family: var(--mono); font-size: 7pt; color: var(--muted);">11/25</span><span class="lab-status status-archive">Archived</span></div>
+        <h3>Podcast compressor</h3>
+        <p>2hr interview into 6-min cut, keyed on new claims. Killed when a similar tool shipped elsewhere.</p>
+        <div><span class="chip">Whisper</span><span class="chip">Claude</span></div>
+        <div class="lab-meta"><span>Feb'26</span></div>
+      </div>
+      <div class="lab-card wip">
+        <div class="lab-head"><span style="font-family: var(--mono); font-size: 7pt; color: var(--muted);">in progress</span><span class="lab-status status-wip">On bench</span></div>
+        <h3>Policy-sim</h3>
+        <p>Tiny macro-model you can steer — raise a rate, watch credit shift, read the generated note.</p>
+        <div><span class="chip">WASM</span><span class="chip">d3</span></div>
+        <div class="lab-meta"><span>Target Q2'26</span></div>
+      </div>
+      <div class="lab-card wip">
+        <div class="lab-head"><span style="font-family: var(--mono); font-size: 7pt; color: var(--muted);">in progress</span><span class="lab-status status-wip">On bench</span></div>
+        <h3>Expedition-log</h3>
+        <p>Private journal that surfaces patterns across entries and nudges toward unanswered questions.</p>
+        <div><span class="chip">Claude</span><span class="chip">SQLite</span></div>
+        <div class="lab-meta"><span>Target May'26</span></div>
+      </div>
+      <div class="lab-card wip">
+        <div class="lab-head"><span style="font-family: var(--mono); font-size: 7pt; color: var(--muted);">coming</span><span class="lab-status status-wip">Soon</span></div>
+        <h3>Blank card</h3>
+        <p>Something for the intersection of policy and AI. Shape not announced. Leaving it visible.</p>
+        <div><span class="chip">?</span></div>
+        <div class="lab-meta"><span>Undecided</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PAGE 6: THOUGHTS ===== -->
+<div class="page">
+  <div class="sheet thoughts-sheet">
+    <div class="sheet-head">
+      <div class="title-mini">Thoughts · Writing</div>
+      <div class="pg">06 / 07</div>
+    </div>
+
+    <div class="section-head">
+      <p class="eyebrow">§ 05 / Thoughts</p>
+      <h2>I write when I have something to say — at the <em>intersection</em> of technology, strategy, and building things.</h2>
+    </div>
+
+    <div style="border-top: 1px solid var(--rule);">
+      <div class="post-row published">
+        <div class="p-date">apr 12, 2026</div>
+        <div>
+          <div class="p-title">What management consultants get wrong about AI</div>
+          <div class="p-hook">Most of the frameworks I see in decks this year treat LLMs as a feature to be "integrated." They're closer to a new factor of production — and strategy people are going to keep mis-sizing the shift until they hold one long enough to feel it.</div>
+        </div>
+        <div class="p-state">Published</div>
+      </div>
+      <div class="post-row draft">
+        <div class="p-date">—</div>
+        <div>
+          <div class="p-title">Why I left engineering for strategy (and why I didn't really leave)</div>
+          <div class="p-hook">Most of the best strategists I know started as builders. Most of the best builders I know can run a decent 2×2. The gap between these tribes is more cultural than technical — and it's costing both.</div>
+        </div>
+        <div class="p-state">Draft</div>
+      </div>
+      <div class="post-row draft">
+        <div class="p-date">—</div>
+        <div>
+          <div class="p-title">The gap between AI demos and AI products</div>
+          <div class="p-hook">A demo is a function of the best ten inputs you can find. A product is a function of the worst thousand. Almost every AI failure I've seen in the last two years is that one sentence, repeated.</div>
+        </div>
+        <div class="p-state">Draft</div>
+      </div>
+      <div class="post-row draft">
+        <div class="p-date">—</div>
+        <div>
+          <div class="p-title">Notes from a central bank, anonymized</div>
+          <div class="p-hook">What regulating a financial system teaches you about regulating anything — including, maybe, AI.</div>
+        </div>
+        <div class="p-state">Draft</div>
+      </div>
+      <div class="post-row draft">
+        <div class="p-date">—</div>
+        <div>
+          <div class="p-title">On sovereign technology</div>
+          <div class="p-hook">Why a $25B roadmap isn't really about money — it's about what a country is willing to be slow at, so it can be fast at the things that matter.</div>
+        </div>
+        <div class="p-state">Draft</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PAGE 7: CONTACT ===== -->
+<div class="page">
+  <div class="sheet contact-sheet">
+    <div class="sheet-head">
+      <div class="title-mini">Contact · Reach Out</div>
+      <div class="pg">07 / 07</div>
+    </div>
+
+    <div class="section-head">
+      <p class="eyebrow">§ 06 / Contact</p>
+      <h2>If you're working on something <em>interesting</em> — or just want to think through a problem — I'm up for a good conversation.</h2>
+    </div>
+
+    <div class="contact-body">
+      <div>
+        <p class="lead">I read everything and try to reply to most things. Don't worry about a polished pitch; a few honest sentences is usually the right start.</p>
+        <p style="font-size: 11pt; font-weight: 500; margin-top: 18pt; color: var(--ink-deep);">I'm particularly interested in hearing from:</p>
+        <ul>
+          <li>people working on <strong>AI in high-stakes domains</strong> — finance, government, health</li>
+          <li>founders <strong>building in emerging markets</strong></li>
+          <li>anyone doing work at the <strong>intersection of technology and policy</strong></li>
+        </ul>
+        <p class="contact-closer">— TP</p>
+      </div>
+
+      <div class="channels">
+        <div class="channel"><span class="label">Email</span><span class="value">tporwal542@gmail.com</span></div>
+        <div class="channel"><span class="label">LinkedIn</span><span class="value">/in/tejas-porwal</span></div>
+        <div class="channel"><span class="label">Location</span><span class="value">New Delhi · GCC</span></div>
+      </div>
+    </div>
+
+    <div class="foot">
+      <div>Tejas Porwal · Engineer · Consultant · Founder</div>
+      <div>© 2026 · Built, not templated</div>
+    </div>
+  </div>
+</div>
+
+<script>
+(async function () {
+  if (document.fonts && document.fonts.ready) { try { await document.fonts.ready; } catch(e){} }
+  setTimeout(() => { window.print(); }, 600);
+})();
+</script>
+</body>
+</html>
