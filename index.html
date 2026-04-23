@@ -9,6 +9,10 @@
   content="Tejas Porwal works at the intersection of deep technology and high-stakes strategy: AI systems, national technology roadmaps, and company building."
 />
 <meta name="theme-color" content="#11161f" />
+<meta property="og:title" content="Tejas Porwal" />
+<meta property="og:description" content="Tejas Porwal works at the intersection of deep technology and high-stakes strategy: AI systems, national technology roadmaps, and company building." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://tejasporwal.github.io/" />
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
@@ -274,6 +278,33 @@ svg {
   height: 1px;
   background: var(--amber);
 }
+
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 36px;
+  height: 36px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #eee5d2;
+  padding: 6px;
+  margin-left: auto;
+}
+
+.nav-toggle span {
+  display: block;
+  width: 20px;
+  height: 1.5px;
+  background: currentColor;
+  transition: transform 220ms ease, opacity 220ms ease;
+}
+
+.nav.open .nav-toggle span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.nav.open .nav-toggle span:nth-child(2) { opacity: 0; }
+.nav.open .nav-toggle span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
 
 .hero {
   position: relative;
@@ -1336,17 +1367,34 @@ svg {
     border-radius: 0;
   }
 
+  .nav-toggle {
+    display: flex;
+  }
+
   .nav-inner {
-    flex-direction: column;
-    align-items: start;
-    justify-content: center;
-    padding: 14px 18px;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+    min-height: 60px;
+    padding: 0 18px;
   }
 
   .nav-links {
-    overflow-x: auto;
+    display: none;
+    flex-direction: column;
+    gap: 0;
     width: 100%;
-    padding-bottom: 2px;
+    padding: 10px 0 14px;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .nav.open .nav-links {
+    display: flex;
+  }
+
+  .nav-links a {
+    padding: 11px 0;
+    font-size: 15px;
   }
 
   .hero-cta {
@@ -1412,6 +1460,9 @@ svg {
       <span class="brand-mark">TP</span>
       <span>Tejas Porwal</span>
     </a>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
     <div class="nav-links">
       <a href="#summary" data-section-link>Summary</a>
       <a href="#journey" data-section-link>Journey</a>
@@ -1432,7 +1483,7 @@ svg {
     <div class="hero-copy reveal is-visible">
       <div class="eyebrow light">Deep technology x high-stakes strategy</div>
       <h1 class="hero-title">
-        <span class="hero-title-prefix">I have been</span>
+        <span class="hero-title-prefix">I am</span>
         <span class="hero-title-role">
           <span class="hero-title-role-text" id="hero-role-text"></span>
           <span class="hero-title-caret" aria-hidden="true"></span>
@@ -1451,9 +1502,9 @@ svg {
   <section class="section narrative" id="summary">
     <div class="container">
       <div class="section-head reveal">
-        <p class="eyebrow">Section 01 / Summary</p>
+        <p class="eyebrow">Summary</p>
         <div>
-          <h2>A short summary.</h2>
+          <h2>The short version.</h2>
         </div>
       </div>
 
@@ -1463,7 +1514,6 @@ svg {
             <p>I work at the seam between <em>how technology works</em> and <em>how institutions win</em>.</p>
             <p>That has meant shipping AI systems, designing strategies for governments and financial institutions, and building companies in parallel.</p>
           </div>
-          <div class="signature">- TP</div>
         </div>
 
         <div class="summary-points reveal">
@@ -1477,8 +1527,26 @@ svg {
           </div>
           <div class="summary-point">
             <strong>Builder</strong>
-            <p>Two ventures built early, with ongoing experiments in AI tools and workflow design.</p>
+            <p>Co-founded Recursion Academy and Bookscroll during college, with ongoing experiments in AI tools and workflow design.</p>
           </div>
+        </div>
+      </div>
+
+      <div class="reveal" style="margin-top: 32px;">
+        <p class="eyebrow" style="margin-bottom: 16px;">Skills &amp; Tools</p>
+        <div class="chips">
+          <span class="chip">Python</span>
+          <span class="chip">C / C++</span>
+          <span class="chip">TensorFlow</span>
+          <span class="chip">PyTorch</span>
+          <span class="chip">LLVM / Compiler Design</span>
+          <span class="chip">Neural Network Inference</span>
+          <span class="chip">Financial Modeling</span>
+          <span class="chip">Technology Strategy</span>
+          <span class="chip">Market Sizing</span>
+          <span class="chip">Stakeholder Engagement</span>
+          <span class="chip">Product Management</span>
+          <span class="chip">AI / ML Systems</span>
         </div>
       </div>
     </div>
@@ -1487,7 +1555,7 @@ svg {
   <section class="section" id="journey">
     <div class="container">
       <div class="section-head reveal">
-        <p class="eyebrow">Section 02 / Journey</p>
+        <p class="eyebrow">Journey</p>
         <div>
           <h2>The path so far.</h2>
           <p class="lede">A few milestones that explain the range.</p>
@@ -1497,9 +1565,9 @@ svg {
       <div class="timeline-wrap">
         <div class="timeline">
           <article class="timeline-row reveal">
-            <div class="timeline-year">2013 - 2015</div>
-            <div class="timeline-title">The Chintels School<span class="sub">Class X to XII</span></div>
-            <div class="timeline-desc">Academic foundation: 95.5% in Class X, 98.2% in Class XII, AIR 3, and UP state rank 1.</div>
+            <div class="timeline-year">2015</div>
+            <div class="timeline-title">The Chintels School<span class="sub">Class XII</span></div>
+            <div class="timeline-desc">98.2% in Class XII, AIR 3, and UP State Rank 1.</div>
           </article>
           <article class="timeline-row reveal">
             <div class="timeline-year">2016 - 2020</div>
@@ -1514,14 +1582,55 @@ svg {
           <article class="timeline-row reveal">
             <div class="timeline-year">2022 - 2024</div>
             <div class="timeline-title">MBA<span class="sub">IIM Bangalore</span></div>
-            <div class="timeline-desc">Expanded into strategy, with Kearney work on GCC payments and a broader operating lens.</div>
+            <div class="timeline-desc">Expanded into strategy and institutional problem-solving at one of India's top business schools.</div>
           </article>
           <article class="timeline-row reveal">
-            <div class="timeline-year">2024 - Now</div>
+            <div class="timeline-year">Apr – Jun 2023</div>
+            <div class="timeline-title">Summer Associate<span class="sub">Kearney</span></div>
+            <div class="timeline-desc">Advised on GCC card scheme strategy, evaluating market structure and fee optimization opportunities across key verticals.</div>
+          </article>
+          <article class="timeline-row reveal">
+            <div class="timeline-year">2024 – Now</div>
             <div class="timeline-title">Management Consultant<span class="sub">Oliver Wyman</span></div>
-            <div class="timeline-desc">Now working on central banks, public-sector technology strategy, and growth problems with large real-world stakes.</div>
+            <div class="timeline-desc">Working on central banks, national technology roadmaps, and public-sector strategy. Projects span technology investment planning for sovereign governments and supervisory governance platforms for large financial institutions.</div>
           </article>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section awards" id="awards">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="eyebrow light">Recognition</p>
+        <div>
+          <h2>A few things worth noting.</h2>
+          <p class="lede">Selected awards, grants, and recognition across engineering, research, and strategy.</p>
+        </div>
+      </div>
+    </div>
+    <div class="ticker-shell">
+      <div class="ticker">
+        <div class="award-item"><span class="num">01</span> International Winner — Amazon Innovation Challenge</div>
+        <div class="award-sep"></div>
+        <div class="award-item"><span class="num">02</span> INSPIRE Scholar — Dept. of Science &amp; Technology, Govt. of India</div>
+        <div class="award-sep"></div>
+        <div class="award-item"><span class="num">03</span> IEEE Journal Author — Solar-powered AQI Monitoring UAV</div>
+        <div class="award-sep"></div>
+        <div class="award-item"><span class="num">04</span> Delhi State Grantee — AQI Drone Research (&#8377;1.5L)</div>
+        <div class="award-sep"></div>
+        <div class="award-item"><span class="num">05</span> Samsung Spot Award — 1 of 40+ recipients (&#8377;1.5L+)</div>
+        <div class="award-sep"></div>
+        <div class="award-item"><span class="num">01</span> International Winner — Amazon Innovation Challenge</div>
+        <div class="award-sep"></div>
+        <div class="award-item"><span class="num">02</span> INSPIRE Scholar — Dept. of Science &amp; Technology, Govt. of India</div>
+        <div class="award-sep"></div>
+        <div class="award-item"><span class="num">03</span> IEEE Journal Author — Solar-powered AQI Monitoring UAV</div>
+        <div class="award-sep"></div>
+        <div class="award-item"><span class="num">04</span> Delhi State Grantee — AQI Drone Research (&#8377;1.5L)</div>
+        <div class="award-sep"></div>
+        <div class="award-item"><span class="num">05</span> Samsung Spot Award — 1 of 40+ recipients (&#8377;1.5L+)</div>
+        <div class="award-sep"></div>
       </div>
     </div>
   </section>
@@ -1529,7 +1638,7 @@ svg {
   <section class="section work" id="work">
     <div class="container">
       <div class="section-head reveal">
-        <p class="eyebrow">Section 03 / Work</p>
+        <p class="eyebrow">Work</p>
         <div>
           <h2>Three examples that show the range.</h2>
           <p class="lede">One from strategy, one from engineering, and one from building.</p>
@@ -1570,8 +1679,8 @@ svg {
                     </svg>
                   </div>
                   <h3>National Technology Investment Roadmap</h3>
-                  <p>Screened 150 technologies for a GCC nation's IT ministry, then prioritized the ten that deserved national focus. The output shaped a $25B+ investment strategy and a long-horizon technology policy agenda.</p>
-                  <span class="project-link">Open case study</span>
+                  <p>Screened 150 technologies for a GCC nation's IT ministry, then prioritized the ten that deserved national focus. The output shaped a long-horizon technology investment strategy and national policy agenda.</p>
+                  <span class="project-link">Read the case</span>
                   <div class="project-tags">
                     <span class="tag">Consulting</span>
                     <span class="tag">Technology Strategy</span>
@@ -1608,7 +1717,7 @@ svg {
                   </div>
                   <h3>Neural Network Compiler Optimizations</h3>
                   <p>Patent-pending compiler and cache optimizations for deep-learning inference, improving benchmark performance and efficiency by 15%+.</p>
-                  <span class="project-link">Open case study</span>
+                  <span class="project-link">Read the case</span>
                   <div class="project-tags">
                     <span class="tag">Engineering</span>
                     <span class="tag">AI/ML Systems</span>
@@ -1633,7 +1742,7 @@ svg {
                   </div>
                   <h3>Recursion Academy</h3>
                   <p>An income-share tech bootcamp that reached 50+ paid learners, placed talent at Microsoft and Adobe, and was recognized as a DTU-IIF Top 5 startup.</p>
-                  <span class="project-link">Open case study</span>
+                  <span class="project-link">Read the case</span>
                   <div class="project-tags">
                     <span class="tag">Startup</span>
                     <span class="tag">Ed-Tech</span>
@@ -1663,7 +1772,7 @@ svg {
     <div class="container">
       <div class="contact-grid">
         <div class="contact-copy reveal">
-          <p class="eyebrow">Section 04 / Contact</p>
+          <p class="eyebrow">Contact</p>
           <h2>If you're working on something <em>interesting</em>, I'm always up for a good conversation.</h2>
           <p style="margin-top: 18px; color: #485063;">
             I am particularly interested in AI in high-stakes domains, founders building in emerging markets, and people doing serious work at the seam between technology and policy.
@@ -1673,7 +1782,8 @@ svg {
             <div class="interest">Financial services, government, and other institutional environments with real constraints.</div>
             <div class="interest">Founders and operators building for emerging markets.</div>
           </div>
-          <p style="margin-top: 20px; color: var(--muted);">I read everything and try to reply to most things.</p>
+          <p style="margin-top: 20px; color: var(--muted);">I respond to every message.</p>
+          <p style="margin-top: 10px; color: var(--muted); font-size: 0.95rem;">Currently open to product and strategy roles at the seam of AI and institutional services.</p>
         </div>
 
         <div class="contact-panel reveal">
@@ -1681,6 +1791,10 @@ svg {
             <div class="channel">
               <span class="label">LinkedIn</span>
               <a class="value" href="https://linkedin.com/in/tejas-porwal" target="_blank" rel="noreferrer">Connect on LinkedIn</a>
+            </div>
+            <div class="channel">
+              <span class="label">Email</span>
+              <a class="value" href="mailto:tporwal542@gmail.com">tporwal542@gmail.com</a>
             </div>
           </div>
 
@@ -1700,7 +1814,7 @@ svg {
             <button class="button-link primary" type="submit">Send</button>
           </form>
 
-          <p class="contact-note" id="contact-note">This form opens a pre-filled email draft in your mail app.</p>
+          <p class="contact-note" id="contact-note"></p>
         </div>
       </div>
     </div>
@@ -1713,7 +1827,7 @@ svg {
       <div class="name">Tejas Porwal</div>
       <div>Engineer &middot; Consultant &middot; Founder</div>
     </div>
-    <div>Built carefully, not from a template.</div>
+    <div>&copy; 2025 Tejas Porwal</div>
   </div>
 </footer>
 
@@ -1722,8 +1836,24 @@ svg {
   const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   const nav = document.getElementById("nav");
+  const navToggle = document.getElementById("nav-toggle");
+
+  if (navToggle) {
+    navToggle.addEventListener("click", function () {
+      const isOpen = nav.classList.toggle("open");
+      navToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+    });
+  }
+
   const sectionLinks = Array.from(document.querySelectorAll("[data-section-link]"));
   if (sectionLinks[0]) sectionLinks[0].classList.add("active");
+
+  sectionLinks.forEach(function (link) {
+    link.addEventListener("click", function () {
+      nav.classList.remove("open");
+      if (navToggle) navToggle.setAttribute("aria-expanded", "false");
+    });
+  });
   const sections = sectionLinks
     .map((link) => {
       const id = link.getAttribute("href");
@@ -1778,7 +1908,7 @@ svg {
   }
 
   const roleText = document.getElementById("hero-role-text");
-  const roleWords = ["AI/ML engineer", "founder", "management consultant"];
+  const roleWords = ["an AI/ML engineer", "a founder", "a management consultant"];
 
   if (roleText) {
     if (prefersReducedMotion) {
