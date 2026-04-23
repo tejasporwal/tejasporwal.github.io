@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Bookscroll - Tejas Porwal</title>
+<meta name="description" content="Bookscroll — a reading platform co-founded by Tejas Porwal." />
+<link rel="stylesheet" href="pages.css" />
+</head>
+<body>
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a class="brand" href="index.html">
+      <span class="brand-mark">TP</span>
+      <span>Tejas Porwal</span>
+    </a>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a class="active" href="index.html#work">Projects</a>
+      <a href="index.html#contact">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<header class="page-hero">
+  <div class="container">
+    <div class="eyebrow">Project 02 / Founder</div>
+    <div class="hero-card">
+      <h1>Bookscroll</h1>
+      <p>A reading platform co-founded during college to make non-fiction more accessible — distilling books into digestible, scroll-friendly formats for time-constrained readers.</p>
+      <div class="button-row">
+        <a class="button-link" href="index.html#work">Back to projects</a>
+        <a class="button-link" href="index.html">Home</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="section">
+  <div class="container detail-layout">
+    <div>
+      <section class="detail-block">
+        <h2>The problem</h2>
+        <p>Most people who want to read more don't have the time to finish books. The knowledge is there, but the format — linear, dense, long — works against busy schedules. At the same time, existing summaries felt reductive: they stripped out the thinking, not just the length.</p>
+      </section>
+      <section class="detail-block">
+        <h2>What I built</h2>
+        <p>Co-founded Bookscroll to rethink how non-fiction is consumed. The product distilled books into structured, scrollable formats — preserving the key ideas and author voice without demanding hours of reading time. Building it meant thinking simultaneously about content curation, editorial structure, and distribution.</p>
+      </section>
+      <section class="detail-block">
+        <h2>What I learned</h2>
+        <p>This was an early lesson in the difference between a product that sounds good and one that users return to. Content quality and reading habit formation turned out to be harder problems than the platform itself — and more interesting for it.</p>
+      </section>
+      <section class="detail-block">
+        <h2>Why it matters</h2>
+        <p>Building Bookscroll alongside Recursion Academy gave me dual operating experience very early: one product about employment outcomes, the other about knowledge access. Both shaped how I think about user incentives and the gap between intent and behaviour.</p>
+      </section>
+    </div>
+
+    <aside class="meta-panel">
+      <div class="meta-row">
+        <span class="meta-label">Context</span>
+        <div>Co-Founder / Startup</div>
+      </div>
+      <div class="meta-row">
+        <span class="meta-label">Type</span>
+        <div>Content platform, reading technology, founder experience</div>
+      </div>
+      <div class="meta-row">
+        <span class="meta-label">Built during</span>
+        <div>College years at Delhi Technological University</div>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div>Tejas Porwal</div>
+    <div><a href="https://linkedin.com/in/tejas-porwal" target="_blank" rel="noreferrer">LinkedIn</a></div>
+  </div>
+</footer>
+<script>
+(function() {
+  var nav = document.getElementById("nav");
+  var toggle = document.getElementById("nav-toggle");
+  if (nav && toggle) {
+    toggle.addEventListener("click", function() {
+      var open = nav.classList.toggle("open");
+      toggle.setAttribute("aria-expanded", open ? "true" : "false");
+    });
+  }
+})();
+</script>
+</body>
+</html>

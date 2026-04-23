@@ -736,6 +736,18 @@ svg {
     linear-gradient(180deg, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0) 100%);
 }
 
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+@media (max-width: 900px) {
+  .projects-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 .featured-carousel {
   display: grid;
   gap: 18px;
@@ -1511,23 +1523,24 @@ svg {
       <div class="narrative-grid">
         <div class="story reveal">
           <div class="story-text">
-            <p>I work at the seam between <em>how technology works</em> and <em>how institutions win</em>.</p>
-            <p>That has meant shipping AI systems, designing strategies for governments and financial institutions, and building companies in parallel.</p>
+            <p>I am an engineer by training, a consultant by profession, and a builder by instinct.</p>
+            <p>I started by building AI systems at <em>Samsung</em> — shipping camera intelligence to millions of devices and working on patent-pending compiler optimizations for neural network inference. An MBA at <em>IIM Bangalore</em> and a strategy internship at <em>Kearney</em> gave me a broader lens. Today, at <em>Oliver Wyman</em>, I work on technology strategy for governments and financial institutions — problems where the stakes are real and the details matter.</p>
+            <p>In parallel, I build. Two ventures co-founded. One IEEE paper published. Experiments ongoing.</p>
           </div>
         </div>
 
         <div class="summary-points reveal">
           <div class="summary-point">
             <strong>Engineer</strong>
-            <p>Compilers, camera AI, inference systems, and research.</p>
+            <p>Production AI/ML systems, compiler optimization, and embedded research — built for scale at Samsung Semiconductor.</p>
           </div>
           <div class="summary-point">
             <strong>Strategist</strong>
-            <p>Central banks, national technology roadmaps, payments, and growth strategy.</p>
+            <p>Technology and growth strategy for sovereign governments and financial institutions, shaped at Kearney and Oliver Wyman.</p>
           </div>
           <div class="summary-point">
             <strong>Builder</strong>
-            <p>Co-founded Recursion Academy and Bookscroll during college, with ongoing experiments in AI tools and workflow design.</p>
+            <p>Co-founded Recursion Academy and Bookscroll. Placed graduates at Microsoft and Adobe. Keeps building on the side.</p>
           </div>
         </div>
       </div>
@@ -1611,25 +1624,17 @@ svg {
     </div>
     <div class="ticker-shell">
       <div class="ticker">
-        <div class="award-item"><span class="num">01</span> International Winner — Amazon Innovation Challenge</div>
+        <div class="award-item"><span class="num">01</span> INSPIRE Scholar — Dept. of Science &amp; Technology, Govt. of India</div>
         <div class="award-sep"></div>
-        <div class="award-item"><span class="num">02</span> INSPIRE Scholar — Dept. of Science &amp; Technology, Govt. of India</div>
+        <div class="award-item"><span class="num">02</span> IEEE Journal Author — Solar-powered AQI Monitoring UAV</div>
         <div class="award-sep"></div>
-        <div class="award-item"><span class="num">03</span> IEEE Journal Author — Solar-powered AQI Monitoring UAV</div>
+        <div class="award-item"><span class="num">03</span> Delhi State Grantee — AQI Drone Research (&#8377;1.5L)</div>
         <div class="award-sep"></div>
-        <div class="award-item"><span class="num">04</span> Delhi State Grantee — AQI Drone Research (&#8377;1.5L)</div>
+        <div class="award-item"><span class="num">01</span> INSPIRE Scholar — Dept. of Science &amp; Technology, Govt. of India</div>
         <div class="award-sep"></div>
-        <div class="award-item"><span class="num">05</span> Samsung Spot Award — 1 of 40+ recipients (&#8377;1.5L+)</div>
+        <div class="award-item"><span class="num">02</span> IEEE Journal Author — Solar-powered AQI Monitoring UAV</div>
         <div class="award-sep"></div>
-        <div class="award-item"><span class="num">01</span> International Winner — Amazon Innovation Challenge</div>
-        <div class="award-sep"></div>
-        <div class="award-item"><span class="num">02</span> INSPIRE Scholar — Dept. of Science &amp; Technology, Govt. of India</div>
-        <div class="award-sep"></div>
-        <div class="award-item"><span class="num">03</span> IEEE Journal Author — Solar-powered AQI Monitoring UAV</div>
-        <div class="award-sep"></div>
-        <div class="award-item"><span class="num">04</span> Delhi State Grantee — AQI Drone Research (&#8377;1.5L)</div>
-        <div class="award-sep"></div>
-        <div class="award-item"><span class="num">05</span> Samsung Spot Award — 1 of 40+ recipients (&#8377;1.5L+)</div>
+        <div class="award-item"><span class="num">03</span> Delhi State Grantee — AQI Drone Research (&#8377;1.5L)</div>
         <div class="award-sep"></div>
       </div>
     </div>
@@ -1638,132 +1643,96 @@ svg {
   <section class="section work" id="work">
     <div class="container">
       <div class="section-head reveal">
-        <p class="eyebrow">Work</p>
+        <p class="eyebrow">Projects</p>
         <div>
-          <h2>Three examples that show the range.</h2>
-          <p class="lede">One from strategy, one from engineering, and one from building.</p>
-          <div class="section-head-actions">
-            <a class="button-link" href="work.html">View all work</a>
-          </div>
+          <h2>Things I have built.</h2>
+          <p class="lede">Two ventures and one research project — all built outside of work, with real users and real outcomes.</p>
         </div>
       </div>
 
-      <div class="featured-carousel reveal">
-        <div class="carousel-shell">
-          <div class="carousel-track" id="featured-track">
-              <div class="carousel-slide">
-                <a class="project project-wide" href="project-national-roadmap.html">
-                  <div class="project-header">
-                    <div>
-                      <div class="project-number">Project 01</div>
-                      <div class="project-context">Oliver Wyman / GCC IT Ministry</div>
-                    </div>
-                  </div>
-                  <div class="project-figure" aria-hidden="true">
-                    <svg viewBox="0 0 240 120">
-                      <g fill="none" stroke="#8fb4d6" stroke-width="2">
-                        <rect x="18" y="18" width="52" height="34" rx="2"></rect>
-                        <rect x="94" y="18" width="52" height="34" rx="2"></rect>
-                        <rect x="170" y="18" width="52" height="34" rx="2"></rect>
-                        <line x1="44" y1="52" x2="44" y2="92"></line>
-                        <line x1="120" y1="52" x2="120" y2="92"></line>
-                        <line x1="196" y1="52" x2="196" y2="92"></line>
-                      </g>
-                      <g fill="#d89a3d">
-                        <circle cx="44" cy="98" r="7"></circle>
-                        <circle cx="120" cy="98" r="7"></circle>
-                        <circle cx="196" cy="98" r="7"></circle>
-                      </g>
-                      <line x1="44" y1="98" x2="120" y2="98" stroke="#d89a3d" stroke-width="2"></line>
-                      <line x1="120" y1="98" x2="196" y2="98" stroke="#d89a3d" stroke-width="2"></line>
-                    </svg>
-                  </div>
-                  <h3>National Technology Investment Roadmap</h3>
-                  <p>Screened 150 technologies for a GCC nation's IT ministry, then prioritized the ten that deserved national focus. The output shaped a long-horizon technology investment strategy and national policy agenda.</p>
-                  <span class="project-link">Read the case</span>
-                  <div class="project-tags">
-                    <span class="tag">Consulting</span>
-                    <span class="tag">Technology Strategy</span>
-                    <span class="tag">Public Sector</span>
-                  </div>
-                </a>
-              </div>
-
-              <div class="carousel-slide">
-                <a class="project project-wide" href="project-compiler-optimizations.html">
-                  <div class="project-header">
-                    <div>
-                      <div class="project-number">Project 02</div>
-                      <div class="project-context">Samsung Semiconductor India Research</div>
-                    </div>
-                  </div>
-                  <div class="project-figure" aria-hidden="true">
-                    <svg viewBox="0 0 240 120">
-                      <rect x="50" y="26" width="140" height="68" rx="4" fill="none" stroke="#8fb4d6" stroke-width="2"></rect>
-                      <rect x="94" y="44" width="52" height="32" fill="none" stroke="#d89a3d" stroke-width="2"></rect>
-                      <g stroke="#8fb4d6" stroke-width="2">
-                        <line x1="70" y1="22" x2="70" y2="10"></line>
-                        <line x1="98" y1="22" x2="98" y2="10"></line>
-                        <line x1="126" y1="22" x2="126" y2="10"></line>
-                        <line x1="154" y1="22" x2="154" y2="10"></line>
-                        <line x1="182" y1="22" x2="182" y2="10"></line>
-                        <line x1="70" y1="110" x2="70" y2="98"></line>
-                        <line x1="98" y1="110" x2="98" y2="98"></line>
-                        <line x1="126" y1="110" x2="126" y2="98"></line>
-                        <line x1="154" y1="110" x2="154" y2="98"></line>
-                        <line x1="182" y1="110" x2="182" y2="98"></line>
-                      </g>
-                    </svg>
-                  </div>
-                  <h3>Neural Network Compiler Optimizations</h3>
-                  <p>Patent-pending compiler and cache optimizations for deep-learning inference, improving benchmark performance and efficiency by 15%+.</p>
-                  <span class="project-link">Read the case</span>
-                  <div class="project-tags">
-                    <span class="tag">Engineering</span>
-                    <span class="tag">AI/ML Systems</span>
-                    <span class="tag">Performance</span>
-                  </div>
-                </a>
-              </div>
-
-              <div class="carousel-slide">
-                <a class="project project-wide" href="project-recursion-academy.html">
-                  <div class="project-header">
-                    <div>
-                      <div class="project-number">Project 03</div>
-                      <div class="project-context">Co-Founder</div>
-                    </div>
-                  </div>
-                  <div class="project-figure" aria-hidden="true">
-                    <svg viewBox="0 0 240 120">
-                      <rect x="36" y="26" width="168" height="68" rx="4" fill="none" stroke="#8fb4d6" stroke-width="2"></rect>
-                      <path d="M72 78 L96 46 L120 66 L144 34 L168 78" fill="none" stroke="#d89a3d" stroke-width="3"></path>
-                    </svg>
-                  </div>
-                  <h3>Recursion Academy</h3>
-                  <p>An income-share tech bootcamp that reached 50+ paid learners, placed talent at Microsoft and Adobe, and was recognized as a DTU-IIF Top 5 startup.</p>
-                  <span class="project-link">Read the case</span>
-                  <div class="project-tags">
-                    <span class="tag">Startup</span>
-                    <span class="tag">Ed-Tech</span>
-                    <span class="tag">Founder</span>
-                  </div>
-                </a>
-              </div>
+      <div class="projects-grid reveal">
+        <a class="project" href="project-recursion-academy.html">
+          <div class="project-header">
+            <div>
+              <div class="project-number">01</div>
+              <div class="project-context">Co-Founder</div>
+            </div>
           </div>
-        </div>
+          <div class="project-figure" aria-hidden="true">
+            <svg viewBox="0 0 240 120">
+              <rect x="36" y="26" width="168" height="68" rx="4" fill="none" stroke="#8fb4d6" stroke-width="2"></rect>
+              <path d="M72 78 L96 46 L120 66 L144 34 L168 78" fill="none" stroke="#d89a3d" stroke-width="3"></path>
+            </svg>
+          </div>
+          <h3>Recursion Academy</h3>
+          <p>An income-share tech bootcamp co-founded during college. Reached 50+ paid learners, placed graduates at Microsoft and Adobe, and was recognised as a DTU-IIF Top 5 startup.</p>
+          <span class="project-link">Read more</span>
+          <div class="project-tags">
+            <span class="tag">Startup</span>
+            <span class="tag">Ed-Tech</span>
+            <span class="tag">Founder</span>
+          </div>
+        </a>
 
-        <div class="carousel-controls">
-          <div class="carousel-buttons">
-            <button class="carousel-button" type="button" id="featured-prev" aria-label="Previous project">&#8592;</button>
-            <button class="carousel-button" type="button" id="featured-next" aria-label="Next project">&#8594;</button>
+        <a class="project" href="project-bookscroll.html">
+          <div class="project-header">
+            <div>
+              <div class="project-number">02</div>
+              <div class="project-context">Co-Founder</div>
+            </div>
           </div>
-          <div class="carousel-dots" aria-label="Featured project navigation">
-            <button class="carousel-dot active" type="button" data-slide="0" aria-label="Show project 1"></button>
-            <button class="carousel-dot" type="button" data-slide="1" aria-label="Show project 2"></button>
-            <button class="carousel-dot" type="button" data-slide="2" aria-label="Show project 3"></button>
+          <div class="project-figure" aria-hidden="true">
+            <svg viewBox="0 0 240 120">
+              <rect x="44" y="22" width="56" height="76" rx="3" fill="none" stroke="#8fb4d6" stroke-width="2"></rect>
+              <rect x="52" y="30" width="40" height="4" rx="1" fill="#8fb4d6" opacity="0.5"></rect>
+              <rect x="52" y="40" width="32" height="4" rx="1" fill="#8fb4d6" opacity="0.35"></rect>
+              <rect x="52" y="50" width="36" height="4" rx="1" fill="#8fb4d6" opacity="0.35"></rect>
+              <rect x="140" y="22" width="56" height="76" rx="3" fill="none" stroke="#d89a3d" stroke-width="2"></rect>
+              <rect x="148" y="30" width="40" height="4" rx="1" fill="#d89a3d" opacity="0.5"></rect>
+              <rect x="148" y="40" width="28" height="4" rx="1" fill="#d89a3d" opacity="0.35"></rect>
+              <rect x="148" y="50" width="34" height="4" rx="1" fill="#d89a3d" opacity="0.35"></rect>
+              <line x1="100" y1="60" x2="140" y2="60" stroke="#8fb4d6" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.6"></line>
+            </svg>
           </div>
-        </div>
+          <h3>Bookscroll</h3>
+          <p>A reading platform co-founded alongside college. Built to make non-fiction more accessible — distilling books into digestible, scroll-friendly formats for time-constrained readers.</p>
+          <span class="project-link">Read more</span>
+          <div class="project-tags">
+            <span class="tag">Startup</span>
+            <span class="tag">Content</span>
+            <span class="tag">Founder</span>
+          </div>
+        </a>
+
+        <a class="project" href="project-aqi-uav.html">
+          <div class="project-header">
+            <div>
+              <div class="project-number">03</div>
+              <div class="project-context">Research / IEEE Publication</div>
+            </div>
+          </div>
+          <div class="project-figure" aria-hidden="true">
+            <svg viewBox="0 0 240 120">
+              <circle cx="120" cy="55" r="18" fill="none" stroke="#d89a3d" stroke-width="2"></circle>
+              <line x1="120" y1="37" x2="120" y2="18" stroke="#8fb4d6" stroke-width="2"></line>
+              <line x1="120" y1="73" x2="120" y2="92" stroke="#8fb4d6" stroke-width="2"></line>
+              <line x1="102" y1="55" x2="58" y2="55" stroke="#8fb4d6" stroke-width="2"></line>
+              <line x1="138" y1="55" x2="182" y2="55" stroke="#8fb4d6" stroke-width="2"></line>
+              <circle cx="58" cy="55" r="10" fill="none" stroke="#8fb4d6" stroke-width="1.5"></circle>
+              <circle cx="182" cy="55" r="10" fill="none" stroke="#8fb4d6" stroke-width="1.5"></circle>
+              <circle cx="120" cy="18" r="10" fill="none" stroke="#8fb4d6" stroke-width="1.5"></circle>
+              <circle cx="120" cy="92" r="10" fill="none" stroke="#8fb4d6" stroke-width="1.5"></circle>
+            </svg>
+          </div>
+          <h3>AQI Monitoring UAV</h3>
+          <p>A solar-powered drone designed to monitor air quality across large areas. Resulted in an IEEE journal publication and a Delhi State Government research grant.</p>
+          <span class="project-link">Read more</span>
+          <div class="project-tags">
+            <span class="tag">Research</span>
+            <span class="tag">Hardware</span>
+            <span class="tag">IEEE</span>
+          </div>
+        </a>
       </div>
     </div>
   </section>
@@ -1773,17 +1742,16 @@ svg {
       <div class="contact-grid">
         <div class="contact-copy reveal">
           <p class="eyebrow">Contact</p>
-          <h2>If you're working on something <em>interesting</em>, I'm always up for a good conversation.</h2>
+          <h2>Good conversations are always welcome.</h2>
           <p style="margin-top: 18px; color: #485063;">
-            I am particularly interested in AI in high-stakes domains, founders building in emerging markets, and people doing serious work at the seam between technology and policy.
+            I enjoy talking to people who are building things, thinking carefully about technology, or navigating hard institutional problems. If any of that sounds like you, feel free to reach out.
           </p>
           <div class="interest-list">
-            <div class="interest">AI systems where reliability matters more than hype.</div>
-            <div class="interest">Financial services, government, and other institutional environments with real constraints.</div>
-            <div class="interest">Founders and operators building for emerging markets.</div>
+            <div class="interest">AI and its intersection with high-stakes, regulated industries.</div>
+            <div class="interest">Early-stage founders, especially those building for emerging markets.</div>
+            <div class="interest">Research, policy, or anything at the edge of technology and real-world systems.</div>
           </div>
           <p style="margin-top: 20px; color: var(--muted);">I respond to every message.</p>
-          <p style="margin-top: 10px; color: var(--muted); font-size: 0.95rem;">Currently open to product and strategy roles at the seam of AI and institutional services.</p>
         </div>
 
         <div class="contact-panel reveal">
@@ -1952,41 +1920,6 @@ svg {
 
       tickRole();
     }
-  }
-
-  const featuredTrack = document.getElementById("featured-track");
-  const featuredPrev = document.getElementById("featured-prev");
-  const featuredNext = document.getElementById("featured-next");
-  const featuredDots = Array.from(document.querySelectorAll(".carousel-dot"));
-
-  if (featuredTrack && featuredPrev && featuredNext && featuredDots.length) {
-    let activeSlide = 0;
-    const slideCount = featuredDots.length;
-
-    function renderFeaturedSlide(index) {
-      activeSlide = (index + slideCount) % slideCount;
-      featuredTrack.style.transform = "translateX(" + (-100 * activeSlide) + "%)";
-      featuredDots.forEach((dot, dotIndex) => {
-        dot.classList.toggle("active", dotIndex === activeSlide);
-      });
-    }
-
-    featuredPrev.addEventListener("click", function () {
-      renderFeaturedSlide(activeSlide - 1);
-    });
-
-    featuredNext.addEventListener("click", function () {
-      renderFeaturedSlide(activeSlide + 1);
-    });
-
-    featuredDots.forEach((dot) => {
-      dot.addEventListener("click", function () {
-        const index = Number(dot.getAttribute("data-slide"));
-        if (!Number.isNaN(index)) renderFeaturedSlide(index);
-      });
-    });
-
-    renderFeaturedSlide(0);
   }
 
   const graphSvg = document.getElementById("node-graph");

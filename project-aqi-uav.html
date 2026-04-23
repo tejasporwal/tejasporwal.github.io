@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>AQI Monitoring UAV - Tejas Porwal</title>
+<meta name="description" content="AQI Monitoring UAV — solar-powered drone research, IEEE publication, and Delhi State Government grant." />
+<link rel="stylesheet" href="pages.css" />
+</head>
+<body>
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a class="brand" href="index.html">
+      <span class="brand-mark">TP</span>
+      <span>Tejas Porwal</span>
+    </a>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a class="active" href="index.html#work">Projects</a>
+      <a href="index.html#contact">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<header class="page-hero">
+  <div class="container">
+    <div class="eyebrow">Project 03 / Research</div>
+    <div class="hero-card">
+      <h1>AQI Monitoring UAV</h1>
+      <p>A solar-powered drone designed to monitor air quality at scale — built during my undergraduate years at DTU, published in an IEEE journal, and supported by a Delhi State Government research grant.</p>
+      <div class="button-row">
+        <a class="button-link" href="index.html#work">Back to projects</a>
+        <a class="button-link" href="index.html">Home</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="section">
+  <div class="container detail-layout">
+    <div>
+      <section class="detail-block">
+        <h2>The problem</h2>
+        <p>Air quality monitoring in Indian cities relies on a sparse network of fixed ground stations — too few to capture hyperlocal variation, and too expensive to scale quickly. Pollution levels can differ dramatically across short distances, but the data to act on that rarely exists.</p>
+      </section>
+      <section class="detail-block">
+        <h2>What I built</h2>
+        <p>Designed and built a solar-powered UAV capable of carrying AQI sensing equipment across variable terrain. The solar design addressed the endurance limitation of battery-only drones, making persistent monitoring feasible without constant retrieval and recharging. The system combined hardware design, embedded systems, and sensor integration.</p>
+      </section>
+      <section class="detail-block">
+        <h2>Outcome</h2>
+        <p>The research was published in an IEEE journal — one of the more rigorous publication venues for engineering work. The project was also recognised with a Delhi State Government grant in support of further development.</p>
+      </section>
+      <section class="detail-block">
+        <h2>Why it matters</h2>
+        <p>This project sits at the intersection of hardware, embedded systems, and a real environmental problem. It was my first experience taking a system from concept through to published research — and learning how much rigour that requires at every stage.</p>
+      </section>
+    </div>
+
+    <aside class="meta-panel">
+      <div class="meta-row">
+        <span class="meta-label">Context</span>
+        <div>Undergraduate Research / Delhi Technological University</div>
+      </div>
+      <div class="meta-row">
+        <span class="meta-label">Type</span>
+        <div>Hardware, embedded systems, environmental sensing</div>
+      </div>
+      <div class="meta-row">
+        <span class="meta-label">Recognition</span>
+        <div>IEEE Journal Publication &middot; Delhi State Government Research Grant</div>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div>Tejas Porwal</div>
+    <div><a href="https://linkedin.com/in/tejas-porwal" target="_blank" rel="noreferrer">LinkedIn</a></div>
+  </div>
+</footer>
+<script>
+(function() {
+  var nav = document.getElementById("nav");
+  var toggle = document.getElementById("nav-toggle");
+  if (nav && toggle) {
+    toggle.addEventListener("click", function() {
+      var open = nav.classList.toggle("open");
+      toggle.setAttribute("aria-expanded", open ? "true" : "false");
+    });
+  }
+})();
+</script>
+</body>
+</html>
