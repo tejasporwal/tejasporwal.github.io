@@ -412,18 +412,30 @@ svg {
 .hero-title-role {
   display: inline-flex;
   align-items: baseline;
-  gap: 6px;
-  min-height: 1.1em;
+  gap: 0.08em;
+  min-width: 12.8ch;
+  min-height: 1.12em;
+  font-size: clamp(3rem, 6.3vw, 5.35rem);
   color: var(--amber);
   font-style: italic;
 }
 
 .hero-title-role-text {
   display: inline-block;
+  white-space: nowrap;
+  transition: opacity 220ms ease, transform 220ms ease, filter 220ms ease;
+  will-change: opacity, transform, filter;
+}
+
+.hero-title-role-text.is-changing {
+  opacity: 0;
+  transform: translateY(0.08em);
+  filter: blur(2px);
 }
 
 .hero-title-caret {
   display: inline-block;
+  flex: 0 0 3px;
   width: 3px;
   height: 0.84em;
   background: currentColor;
@@ -607,6 +619,8 @@ svg {
 .timeline-wrap {
   --timeline-padding: 32px;
   --timeline-axis: 10px;
+  --timeline-dot-size: 18px;
+  --timeline-dot-radius: 9px;
   position: relative;
   padding-left: var(--timeline-padding);
 }
@@ -639,10 +653,10 @@ svg {
 .timeline-row::before {
   content: "";
   position: absolute;
-  left: calc(var(--timeline-axis) - 7px - var(--timeline-padding));
+  left: calc(var(--timeline-axis) - var(--timeline-dot-radius) - var(--timeline-padding));
   top: 34px;
-  width: 14px;
-  height: 14px;
+  width: var(--timeline-dot-size);
+  height: var(--timeline-dot-size);
   border-radius: 50%;
   border: 3px solid var(--cream);
   background: linear-gradient(180deg, var(--steel) 0%, var(--amber) 100%);
@@ -1330,11 +1344,13 @@ svg {
   .timeline-wrap {
     --timeline-padding: 24px;
     --timeline-axis: 9px;
+    --timeline-dot-size: 18px;
+    --timeline-dot-radius: 9px;
     padding-left: var(--timeline-padding);
   }
 
   .timeline-row::before {
-    left: calc(var(--timeline-axis) - 7px - var(--timeline-padding));
+    left: calc(var(--timeline-axis) - var(--timeline-dot-radius) - var(--timeline-padding));
   }
 
   .project.project-wide,
@@ -1479,8 +1495,13 @@ svg {
   }
 
   .hero-title-role {
-    min-height: 1.18em;
-    font-size: clamp(2.8rem, 16vw, 4.5rem);
+    min-width: 100%;
+    min-height: 3em;
+    font-size: clamp(2.65rem, 14.6vw, 4rem);
+  }
+
+  .hero-title-role-text {
+    white-space: normal;
   }
 
   .hero-sub {
@@ -1952,42 +1973,17 @@ svg {
       roleText.textContent = roleWords[roleWords.length - 1];
     } else {
       let wordIndex = 0;
-      let charIndex = 0;
-      let mode = "type";
+      roleText.textContent = roleWords[wordIndex];
 
-      function tickRole() {
-        const currentWord = roleWords[wordIndex];
+      window.setInterval(() => {
+        roleText.classList.add("is-changing");
 
-        if (mode === "type") {
-          charIndex += 1;
-          roleText.textContent = currentWord.slice(0, charIndex);
-          if (charIndex === currentWord.length) {
-            mode = "hold";
-            setTimeout(tickRole, 1350);
-            return;
-          }
-          setTimeout(tickRole, 48 + Math.random() * 28);
-          return;
-        }
-
-        if (mode === "hold") {
-          mode = "erase";
-          setTimeout(tickRole, 240);
-          return;
-        }
-
-        charIndex -= 1;
-        roleText.textContent = currentWord.slice(0, charIndex);
-        if (charIndex === 0) {
+        window.setTimeout(() => {
           wordIndex = (wordIndex + 1) % roleWords.length;
-          mode = "type";
-          setTimeout(tickRole, 200);
-          return;
-        }
-        setTimeout(tickRole, 26);
-      }
-
-      tickRole();
+          roleText.textContent = roleWords[wordIndex];
+          roleText.classList.remove("is-changing");
+        }, 220);
+      }, 2200);
     }
   }
 
