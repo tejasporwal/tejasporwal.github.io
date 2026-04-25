@@ -890,12 +890,13 @@ svg {
 }
 
 .project-context {
-  max-width: 80%;
+  max-width: 100%;
   font-family: var(--mono);
   font-size: 11px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--muted);
+  white-space: nowrap;
 }
 
 .project-figure {
@@ -1456,13 +1457,17 @@ svg {
   .hero {
     margin-top: -60px;
     min-height: auto;
+    background:
+      radial-gradient(circle at 12% 18%, rgba(143, 180, 214, 0.2), transparent 24%),
+      radial-gradient(circle at 82% 34%, rgba(216, 154, 61, 0.14), transparent 28%),
+      linear-gradient(180deg, #141b27 0%, #0b1018 100%);
   }
 
   .hero-inner {
-    min-height: 700px;
+    min-height: 660px;
     align-items: flex-start;
-    padding-top: 248px;
-    padding-bottom: 64px;
+    padding-top: 138px;
+    padding-bottom: 52px;
   }
 
   .hero-copy {
@@ -1485,22 +1490,29 @@ svg {
   }
 
   .hero-background {
-    transform: translate3d(12%, 118px, 0) scale(1.08);
-    opacity: 0.95;
+    inset: 0;
+    transform: none;
+    opacity: 1;
   }
 
   .hero-graph {
-    opacity: 0.95;
+    opacity: 0.86;
+  }
+
+  .hero-graph svg {
+    width: 100%;
+    height: 100%;
   }
 
   .hero #node-graph .network-node.center circle.main {
-    opacity: 0.42;
+    opacity: 0.36;
   }
 
   .hero-background::after {
     background:
-      radial-gradient(circle at 50% 46%, transparent 0%, rgba(11, 16, 24, 0.1) 52%, rgba(11, 16, 24, 0.66) 100%),
-      linear-gradient(180deg, rgba(11, 16, 24, 0.1) 0%, rgba(11, 16, 24, 0.16) 42%, rgba(11, 16, 24, 0.58) 100%);
+      radial-gradient(circle at 58% 44%, transparent 0%, rgba(11, 16, 24, 0.08) 46%, rgba(11, 16, 24, 0.62) 100%),
+      linear-gradient(180deg, rgba(11, 16, 24, 0.16) 0%, rgba(11, 16, 24, 0.04) 34%, rgba(11, 16, 24, 0.62) 100%),
+      linear-gradient(90deg, rgba(11, 16, 24, 0.42) 0%, rgba(11, 16, 24, 0.08) 34%, rgba(11, 16, 24, 0.18) 100%);
   }
 }
 
@@ -1756,11 +1768,11 @@ svg {
             </svg>
           </div>
           <h3>Bookscroll</h3>
-          <p>A reading platform co-founded alongside college. Built to make non-fiction more accessible — distilling books into digestible, scroll-friendly formats for time-constrained readers.</p>
+          <p>A student utility marketplace for books, lab instruments, and hostel essentials, built to make peer-to-peer transactions transparent, economical, and trusted.</p>
           <span class="project-link">Read more</span>
           <div class="project-tags">
             <span class="tag">Startup</span>
-            <span class="tag">Content</span>
+            <span class="tag">Marketplace</span>
             <span class="tag">Founder</span>
           </div>
         </a>
@@ -1786,7 +1798,7 @@ svg {
             </svg>
           </div>
           <h3>AQI Monitoring UAV</h3>
-          <p>A solar-powered drone designed to monitor air quality across large areas. Resulted in an IEEE journal publication and a Delhi State Government research grant.</p>
+          <p>A fixed-wing solar UAV and low-cost sensor stack for geo-tagged PM2.5 monitoring, published at IEEE CONECCT 2020.</p>
           <span class="project-link">Read more</span>
           <div class="project-tags">
             <span class="tag">Research</span>
@@ -1983,7 +1995,14 @@ svg {
   if (graphSvg) {
     const NS = "http://www.w3.org/2000/svg";
     const hero = document.getElementById("top");
-    const nodesData = [
+    const isCompactGraph = window.matchMedia("(max-width: 720px)").matches;
+    const graphBounds = isCompactGraph
+      ? { width: 390, height: 720 }
+      : { width: 1440, height: 900 };
+    graphSvg.setAttribute("viewBox", "0 0 " + graphBounds.width + " " + graphBounds.height);
+    graphSvg.classList.toggle("is-compact", isCompactGraph);
+
+    const desktopNodes = [
       {
         id: "compiler",
         x: 265,
@@ -2048,6 +2067,72 @@ svg {
         theme: "center",
       }
     ];
+    const compactNodes = [
+      {
+        id: "compiler",
+        x: 74,
+        y: 122,
+        label: "Code",
+        theme: "tech",
+      },
+      {
+        id: "camera",
+        x: 312,
+        y: 118,
+        label: "AI",
+        theme: "tech",
+      },
+      {
+        id: "uav",
+        x: 52,
+        y: 318,
+        label: "Research",
+        theme: "tech",
+      },
+      {
+        id: "startup",
+        x: 82,
+        y: 566,
+        label: "Build",
+        theme: "build",
+      },
+      {
+        id: "payments",
+        x: 330,
+        y: 258,
+        label: "Policy",
+        theme: "strategy",
+      },
+      {
+        id: "bank",
+        x: 324,
+        y: 430,
+        label: "Markets",
+        theme: "strategy",
+      },
+      {
+        id: "roadmap",
+        x: 272,
+        y: 612,
+        label: "Roadmaps",
+        theme: "strategy",
+      },
+      {
+        id: "growth",
+        x: 178,
+        y: 656,
+        label: "Growth",
+        theme: "strategy",
+      },
+      {
+        id: "center",
+        x: 204,
+        y: 396,
+        label: "Systems",
+        theme: "center",
+      }
+    ];
+    const nodesData = isCompactGraph ? compactNodes : desktopNodes;
     const connections = [
       ["compiler", "center"],
       ["camera", "center"],
@@ -2080,7 +2165,13 @@ svg {
       ".network-node.center circle.main{fill:#f1e5ce;opacity:.7;}",
       ".network-node.active circle.main{r:20;opacity:.95;fill:#f1e5ce;}",
       ".network-node.center circle.main{r:22;}",
-      ".network-node.active .network-label{fill:rgba(241,232,213,.72);}"
+      ".network-node.active .network-label{fill:rgba(241,232,213,.72);}",
+      ".is-compact .edge{stroke-width:1;opacity:.5;}",
+      ".is-compact .edge.core{stroke:rgba(216,154,61,.22);}",
+      ".is-compact .network-label{font-size:9px;letter-spacing:.1em;fill:rgba(231,221,197,.2);}",
+      ".is-compact .network-node circle.main{opacity:.44;}",
+      ".is-compact .network-node.center circle.main{opacity:.34;}",
+      ".is-compact .network-node.active circle.main{opacity:.62;}"
     ].join("");
     graphSvg.appendChild(style);
 
@@ -2160,8 +2251,8 @@ svg {
         const offsetY = ((event.clientY - bounds.top) / bounds.height - 0.5) * 18;
         network.setAttribute("transform", "translate(" + offsetX.toFixed(2) + "," + offsetY.toFixed(2) + ")");
 
-        const px = ((event.clientX - bounds.left) / bounds.width) * 1440;
-        const py = ((event.clientY - bounds.top) / bounds.height) * 900;
+        const px = ((event.clientX - bounds.left) / bounds.width) * graphBounds.width;
+        const py = ((event.clientY - bounds.top) / bounds.height) * graphBounds.height;
 
         let nearestId = "center";
         let nearestDistance = Infinity;

@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>AQI Monitoring UAV - Tejas Porwal</title>
-<meta name="description" content="AQI Monitoring UAV — solar-powered drone research, IEEE publication, and Delhi State Government grant." />
+<meta name="description" content="AQI Monitoring UAV — fixed-wing solar UAV research for low-cost, geo-tagged air quality monitoring." />
 <link rel="stylesheet" href="pages.css" />
 </head>
 <body>
@@ -30,7 +30,7 @@
     <div class="eyebrow">Project 03 / Research</div>
     <div class="hero-card">
       <h1>AQI Monitoring UAV</h1>
-      <p>A solar-powered drone designed to monitor air quality at scale — built during my undergraduate years at DTU, published in an IEEE journal, and supported by a Delhi State Government research grant.</p>
+      <p>A fixed-wing solar-powered UAV and low-cost sensor stack designed to generate fine-grained, geo-tagged air-quality data for smart cities and pollution hotspot detection.</p>
       <div class="button-row">
         <a class="button-link" href="work.html">Back to work</a>
         <a class="button-link" href="index.html">Home</a>
@@ -97,19 +97,23 @@
     <div>
       <section class="detail-block">
         <h2>The problem</h2>
-        <p>Urban air quality monitoring relies on a sparse network of fixed ground stations — too few to capture the spatial and temporal variability of pollution, and too expensive to scale. Pollutant concentrations can differ significantly across short distances and short time windows, but the data infrastructure to detect and act on that granularity rarely exists. Growing concerns around air quality in large cities made this a meaningful problem to work on.</p>
+        <p>Air quality is intensely local: pollution levels can change meaningfully from one point to another. Static monitoring stations are expensive, sparse, and often insufficient for capturing the spatial and temporal variation needed to identify pollution hotspots. In India, the paper notes that only a small fraction of census towns were monitored and that fixed stations were too costly to scale widely.</p>
       </section>
       <section class="detail-block">
-        <h2>What I built</h2>
-        <p>Designed and developed a solar-powered UAV capable of carrying multiple air quality sensors across variable terrain. UAVs offer a distinct advantage here: high manoeuvrability across both horizontal and vertical dimensions allows for high-spatial-resolution sampling and near-surface vertical profiling of atmospheric pollution — something fixed stations cannot do. The solar power system addressed the endurance limitation of conventional battery-only drones, enabling sustained operation without constant retrieval and recharging. The system integrated hardware design, embedded electronics, and multi-sensor data collection.</p>
+        <h2>System design</h2>
+        <p>Designed and manufactured a 3.12 metre fixed-wing UAV using carbon fibre rods, balsa wood, aramid, and glass fibre. The fixed-wing design was chosen over a quadcopter because it offered longer flight time and reduced propeller-wash interference with sensor readings. The prototype was designed around solar endurance, with a 38-cell SunPower C-60 module concept capable of generating around 100W under ideal conditions.</p>
       </section>
       <section class="detail-block">
-        <h2>Outcome</h2>
-        <p>The work was published in an IEEE conference paper — a rigorous peer-reviewed venue for engineering research. The project was also supported by a Delhi State Government research grant. The published research is available via <a href="https://ieeexplore.ieee.org/document/8662050" target="_blank" rel="noreferrer" style="color: var(--amber-ink); text-decoration: underline; text-underline-offset: 3px;">IEEE Xplore (DOI 10.1109/ICCE.2019.8662050)</a>.</p>
+        <h2>Data fusion module</h2>
+        <p>Built a low-cost sensing module around an Alphasense OPC-R1 particulate sensor, Raspberry Pi, and Pixhawk flight controller. The system captured PM1, PM2.5, PM10, temperature, time, latitude, longitude, and altitude data. A custom Python script ran the OPC-R1 on Raspberry Pi, while GPS and flight data were exchanged with Pixhawk over Mavlink. The sensor sampling rate was set to one second, enabling spatiotemporal pollution mapping from mobile measurements.</p>
       </section>
       <section class="detail-block">
-        <h2>Why it matters</h2>
-        <p>This project was my first experience taking a hardware system from a real-world problem through design, integration, and published research. Low-cost micro-sensors combined with UAV manoeuvrability make fine-grained, real-time air quality monitoring genuinely feasible — and the broader implications for smart city infrastructure are significant. It also taught me how much rigour the full arc from concept to publication actually requires.</p>
+        <h2>Results</h2>
+        <p>The UAV was successfully field-tested at low altitude with sufficient payload capacity for the data fusion module. The system generated PM2.5 readings linked to GPS coordinates, which were plotted using Python, Matplotlib, and Pandas to identify location-specific pollution variation. The data fusion module was also mounted on a car to demonstrate its use as a low-cost mobile monitoring station for public transportation systems and city-scale deployment.</p>
+      </section>
+      <section class="detail-block">
+        <h2>Publication and relevance</h2>
+        <p>The work was published as "Emerging Low-Cost Air Quality Monitoring Techniques for Smart Cities with UAV" at IEEE CONECCT 2020. The paper positions UAV-based sensing as a practical complement to scarce static stations and satellite methods, with applications in smart cities, industrial areas, glaciers, inaccessible terrain, and real-time stubble-burning monitoring. The published paper is available on <a class="detail-link" href="https://ieeexplore.ieee.org/document/9198487" target="_blank" rel="noreferrer">IEEE Xplore, article 9198487</a>.</p>
       </section>
     </div>
 
@@ -120,11 +124,15 @@
       </div>
       <div class="meta-row">
         <span class="meta-label">Type</span>
-        <div>Hardware, embedded systems, environmental sensing</div>
+        <div>Solar UAV, embedded sensing, PM2.5 mapping</div>
       </div>
       <div class="meta-row">
         <span class="meta-label">Recognition</span>
-        <div>IEEE Journal Publication &middot; Delhi State Government Research Grant</div>
+        <div>IEEE CONECCT 2020 publication &middot; Delhi Technological University research support</div>
+      </div>
+      <div class="meta-row">
+        <span class="meta-label">Paper metrics</span>
+        <div>IEEE Xplore maintains live citation and full-text view counts on the paper page.</div>
       </div>
     </aside>
   </div>

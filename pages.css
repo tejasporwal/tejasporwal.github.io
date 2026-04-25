@@ -302,6 +302,7 @@ img, svg { display: block; max-width: 100%; }
   font-size: 11px;
   letter-spacing: 0.12em;
   color: var(--muted);
+  white-space: nowrap;
 }
 
 .project-figure {
@@ -399,6 +400,22 @@ img, svg { display: block; max-width: 100%; }
   margin-top: 12px;
   margin-bottom: 0;
   color: #3f4759;
+}
+
+.detail-block ul {
+  margin: 14px 0 0;
+  padding-left: 1.1rem;
+  color: #3f4759;
+}
+
+.detail-block li + li {
+  margin-top: 8px;
+}
+
+.detail-link {
+  color: var(--amber-ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 .detail-block + .detail-block {
