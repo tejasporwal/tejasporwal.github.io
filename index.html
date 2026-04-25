@@ -68,6 +68,7 @@ body {
   text-rendering: optimizeLegibility;
   font-kerning: normal;
   font-variant-ligatures: common-ligatures contextual;
+  overflow-x: hidden;
 }
 
 a {
@@ -207,17 +208,21 @@ svg {
   border-bottom: 1px solid rgba(239, 231, 214, 0.12);
   border-radius: 0;
   background:
-    linear-gradient(180deg, rgba(36, 42, 56, 0.82), rgba(18, 24, 35, 0.72));
+    linear-gradient(180deg, rgba(13, 18, 26, 0.42), rgba(13, 18, 26, 0.18));
   box-shadow:
-    0 12px 34px rgba(10, 14, 22, 0.12),
+    0 12px 34px rgba(10, 14, 22, 0.04),
     inset 0 1px 0 rgba(255, 255, 255, 0.08);
   color: #eee5d2;
+  transition: background 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
 }
 
 .nav.scrolled {
   background:
     linear-gradient(180deg, rgba(28, 34, 47, 0.88), rgba(17, 22, 32, 0.8));
   border-color: rgba(239, 231, 214, 0.18);
+  box-shadow:
+    0 12px 34px rgba(10, 14, 22, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
 .nav-inner {
@@ -308,6 +313,7 @@ svg {
 
 .hero {
   position: relative;
+  margin-top: -76px;
   min-height: 100vh;
   overflow: hidden;
   background:
@@ -372,7 +378,7 @@ svg {
   z-index: 3;
   width: min(var(--maxw), calc(100% - 48px));
   margin: 0 auto;
-  padding: 128px 0 70px;
+  padding: 176px 0 70px;
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -1365,11 +1371,11 @@ svg {
   .hero-bottom,
   .stats-grid,
   .footer-inner {
-    width: min(100% - 32px, var(--maxw));
+    width: min(calc(100% - 32px), var(--maxw));
   }
 
   .hero-inner {
-    padding-top: 96px;
+    padding-top: 132px;
   }
 
   .nav {
@@ -1440,6 +1446,61 @@ svg {
   .contact-copy,
   .story {
     padding: 22px;
+  }
+
+  .nav {
+    background:
+      linear-gradient(180deg, rgba(13, 18, 26, 0.62), rgba(13, 18, 26, 0.32));
+  }
+
+  .hero {
+    margin-top: -60px;
+    min-height: auto;
+  }
+
+  .hero-inner {
+    min-height: 700px;
+    align-items: flex-start;
+    padding-top: 248px;
+    padding-bottom: 64px;
+  }
+
+  .hero-copy {
+    max-width: 100%;
+  }
+
+  .hero-title {
+    max-width: 100%;
+  }
+
+  .hero-title-role {
+    min-height: 1.18em;
+    font-size: clamp(2.8rem, 16vw, 4.5rem);
+  }
+
+  .hero-sub {
+    max-width: 100%;
+    margin-top: 22px;
+    color: rgba(241, 232, 213, 0.86);
+  }
+
+  .hero-background {
+    transform: translate3d(12%, 118px, 0) scale(1.08);
+    opacity: 0.95;
+  }
+
+  .hero-graph {
+    opacity: 0.95;
+  }
+
+  .hero #node-graph .network-node.center circle.main {
+    opacity: 0.42;
+  }
+
+  .hero-background::after {
+    background:
+      radial-gradient(circle at 50% 46%, transparent 0%, rgba(11, 16, 24, 0.1) 52%, rgba(11, 16, 24, 0.66) 100%),
+      linear-gradient(180deg, rgba(11, 16, 24, 0.1) 0%, rgba(11, 16, 24, 0.16) 42%, rgba(11, 16, 24, 0.58) 100%);
   }
 }
 
