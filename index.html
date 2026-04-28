@@ -423,14 +423,8 @@ svg {
 .hero-title-role-text {
   display: inline-block;
   white-space: nowrap;
-  transition: opacity 220ms ease, transform 220ms ease, filter 220ms ease;
-  will-change: opacity, transform, filter;
-}
-
-.hero-title-role-text.is-changing {
-  opacity: 0;
-  transform: translateY(0.08em);
-  filter: blur(2px);
+  font-variant-ligatures: none;
+  will-change: contents;
 }
 
 .hero-title-caret {
@@ -1973,17 +1967,80 @@ svg {
       roleText.textContent = roleWords[roleWords.length - 1];
     } else {
       let wordIndex = 0;
-      roleText.textContent = roleWords[wordIndex];
+      let charIndex = 0;
+      let mode = "typing";
+      let activeTimer = null;
 
-      window.setInterval(() => {
-        roleText.classList.add("is-changing");
+      function currentWord() {
+        return roleWords[wordIndex];
+      }
 
-        window.setTimeout(() => {
+      function renderRole() {
+        roleText.textContent = currentWord().slice(0, charIndex);
+      }
+
+      function nextDelay() {
+        const word = currentWord();
+        const char = word.charAt(Math.max(0, charIndex - 1));
+
+        if (mode === "typing") {
+          if (charIndex === word.length) return 1450;
+          if (char === " ") return 118;
+          if (char === "/") return 92;
+          return 54 + (charIndex % 3) * 12;
+        }
+
+        if (mode === "pausing") return 180;
+        return 28 + (charIndex % 2) * 8;
+      }
+
+      function scheduleNext(delay) {
+        activeTimer = window.setTimeout(tickRole, delay);
+      }
+
+      function tickRole() {
+        const word = currentWord();
+
+        if (mode === "typing") {
+          charIndex += 1;
+          renderRole();
+
+          if (charIndex >= word.length) {
+            mode = "pausing";
+            scheduleNext(1450);
+            return;
+          }
+
+          scheduleNext(nextDelay());
+          return;
+        }
+
+        if (mode === "pausing") {
+          mode = "erasing";
+          scheduleNext(nextDelay());
+          return;
+        }
+
+        charIndex -= 1;
+        renderRole();
+
+        if (charIndex <= 0) {
+          charIndex = 0;
           wordIndex = (wordIndex + 1) % roleWords.length;
-          roleText.textContent = roleWords[wordIndex];
-          roleText.classList.remove("is-changing");
-        }, 220);
-      }, 2200);
+          mode = "typing";
+          scheduleNext(260);
+          return;
+        }
+
+        scheduleNext(nextDelay());
+      }
+
+      renderRole();
+      scheduleNext(260);
+
+      window.addEventListener("pagehide", () => {
+        if (activeTimer) window.clearTimeout(activeTimer);
+      });
     }
   }
 
