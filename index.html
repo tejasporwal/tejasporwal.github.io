@@ -113,6 +113,15 @@ p {
   text-wrap: pretty;
 }
 
+main {
+  position: relative;
+  z-index: 8;
+  background:
+    radial-gradient(circle, rgba(34, 40, 58, 0.08) 1px, transparent 1.2px),
+    linear-gradient(180deg, var(--cream) 0%, var(--paper) 48%, var(--cream) 100%);
+  background-size: 29px 29px, auto;
+}
+
 img,
 svg {
   display: block;
@@ -153,8 +162,48 @@ svg {
 }
 
 .section {
+  --section-progress: 0;
+  --section-enter: linear-gradient(180deg, rgba(246, 240, 228, 0), rgba(246, 240, 228, 0));
+  --section-exit: linear-gradient(180deg, rgba(246, 240, 228, 0), rgba(246, 240, 228, 0));
+  --section-line: rgba(34, 40, 58, 0.08);
   position: relative;
   padding: 110px 0;
+  overflow: clip;
+  isolation: isolate;
+}
+
+.section::before,
+.section::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.section::before {
+  top: 0;
+  height: 42vh;
+  background: var(--section-enter);
+  opacity: clamp(0, calc(0.9 - var(--section-progress) * 1.4), 0.46);
+  transform: translateY(calc((var(--section-progress) - 0.5) * -38px));
+}
+
+.section::after {
+  bottom: 0;
+  height: 34vh;
+  background: var(--section-exit);
+  opacity: clamp(0, calc(var(--section-progress) * 1.1), 0.40);
+  transform: translateY(calc((1 - var(--section-progress)) * 42px));
+}
+
+.section > .container,
+.section > .narrow {
+  position: relative;
+  z-index: 2;
+  transform: translateY(clamp(-18px, calc((0.46 - var(--section-progress)) * 36px), 22px));
+  transition: transform 120ms linear;
 }
 
 .section-head {
@@ -183,11 +232,116 @@ svg {
 
 .reveal {
   opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 700ms ease, transform 700ms ease;
+  transform: translateY(32px);
+  transition:
+    opacity 820ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 820ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
 }
 
 .reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  will-change: auto;
+}
+
+/* ── CINEMATIC SCROLL ANIMATIONS ── */
+
+/* Project cards cascade as their parent grid reveals */
+@keyframes cardReveal {
+  from { opacity: 0; transform: translateY(26px) scale(0.968); }
+  to   { opacity: 1; transform: translateY(0)    scale(1);     }
+}
+.projects-grid.is-visible .project:nth-child(1) { animation: cardReveal 700ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+.projects-grid.is-visible .project:nth-child(2) { animation: cardReveal 700ms cubic-bezier(0.22, 1, 0.36, 1) 100ms both; }
+.projects-grid.is-visible .project:nth-child(3) { animation: cardReveal 700ms cubic-bezier(0.22, 1, 0.36, 1) 200ms both; }
+
+/* Timeline rows — slide in from left */
+.timeline-row.reveal          { transform: translateX(-28px); }
+.timeline-row.reveal.is-visible { transform: translateX(0); }
+
+/* Contact panel — slide in from right */
+.contact-panel.reveal           { transform: translateX(28px); }
+.contact-panel.reveal.is-visible { transform: translateX(0); }
+
+/* Summary points — stagger on parent reveal (transform only; parent opacity handles the fade) */
+.summary-point {
+  transform: translateY(18px);
+  transition: transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.summary-points.is-visible .summary-point:nth-child(1) { transform: none; }
+.summary-points.is-visible .summary-point:nth-child(2) { transform: none; transition-delay: 110ms; }
+.summary-points.is-visible .summary-point:nth-child(3) { transform: none; transition-delay: 220ms; }
+
+/* Skills chips — stagger up into view */
+.chip {
+  transform: translateY(8px);
+  transition: transform 440ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal.is-visible .chip                 { transform: none; }
+.reveal.is-visible .chip:nth-child(1)   { transition-delay:   0ms; }
+.reveal.is-visible .chip:nth-child(2)   { transition-delay:  36ms; }
+.reveal.is-visible .chip:nth-child(3)   { transition-delay:  72ms; }
+.reveal.is-visible .chip:nth-child(4)   { transition-delay: 108ms; }
+.reveal.is-visible .chip:nth-child(5)   { transition-delay: 144ms; }
+.reveal.is-visible .chip:nth-child(6)   { transition-delay: 180ms; }
+.reveal.is-visible .chip:nth-child(7)   { transition-delay: 216ms; }
+.reveal.is-visible .chip:nth-child(8)   { transition-delay: 252ms; }
+.reveal.is-visible .chip:nth-child(9)   { transition-delay: 288ms; }
+.reveal.is-visible .chip:nth-child(10)  { transition-delay: 324ms; }
+.reveal.is-visible .chip:nth-child(11)  { transition-delay: 360ms; }
+.reveal.is-visible .chip:nth-child(12)  { transition-delay: 396ms; }
+
+/* Contact interest list — slide in from left on parent reveal */
+.contact-copy .interest {
+  transform: translateX(-14px);
+  transition: transform 560ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.contact-copy.is-visible .interest:nth-child(1) { transform: none; transition-delay: 160ms; }
+.contact-copy.is-visible .interest:nth-child(2) { transform: none; transition-delay: 280ms; }
+.contact-copy.is-visible .interest:nth-child(3) { transform: none; transition-delay: 400ms; }
+
+/* Eyebrow decorative line grows in when parent reveals */
+.reveal .eyebrow::before {
+  width: 0;
+  transition: width 580ms cubic-bezier(0.22, 1, 0.36, 1) 200ms;
+}
+.reveal.is-visible .eyebrow::before { width: 26px; }
+
+/* Section ambient glow orbs (injected via JS) */
+.section-ambient {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+.sa-a, .sa-b {
+  position: absolute;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: left 2.4s cubic-bezier(0.22, 1, 0.36, 1), top 2.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.sa-a { width: 72vw; height: 72vw; }
+.sa-b { width: 46vw; height: 46vw; }
+.narrative .sa-a { background: radial-gradient(circle, rgba(216,154,61,0.07)   0%, transparent 65%); }
+.narrative .sa-b { background: radial-gradient(circle, rgba(143,180,214,0.055) 0%, transparent 65%); }
+.journey  .sa-a  { background: radial-gradient(circle, rgba(143,180,214,0.08)  0%, transparent 65%); }
+.journey  .sa-b  { background: radial-gradient(circle, rgba(216,154,61,0.05)   0%, transparent 65%); }
+.work     .sa-a  { background: radial-gradient(circle, rgba(143,180,214,0.07)  0%, transparent 65%); }
+.work     .sa-b  { background: radial-gradient(circle, rgba(216,154,61,0.06)   0%, transparent 65%); }
+.contact  .sa-a  { background: radial-gradient(circle, rgba(216,154,61,0.08)   0%, transparent 65%); }
+.contact  .sa-b  { background: radial-gradient(circle, rgba(143,180,214,0.05)  0%, transparent 65%); }
+
+/* Awards section ticker entrance */
+.ticker-shell {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity  900ms cubic-bezier(0.22, 1, 0.36, 1) 280ms,
+    transform 900ms cubic-bezier(0.22, 1, 0.36, 1) 280ms;
+}
+.awards.in-view .ticker-shell {
   opacity: 1;
   transform: translateY(0);
 }
@@ -312,32 +466,45 @@ svg {
 .nav.open .nav-toggle span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
 
 .hero {
+  --hero-progress: 0;
+  --hero-exit: 0;
   position: relative;
   margin-top: -76px;
-  min-height: 100vh;
-  overflow: hidden;
+  min-height: 190vh;
+  overflow: clip;
   background:
-    radial-gradient(circle at 18% 18%, rgba(143, 180, 214, 0.18), transparent 22%),
-    radial-gradient(circle at 82% 18%, rgba(216, 154, 61, 0.16), transparent 24%),
-    linear-gradient(180deg, #131a26 0%, #0b1018 100%);
+    radial-gradient(circle at 76% 24%, rgba(143, 180, 214, 0.16), transparent 24%),
+    radial-gradient(circle at 50% 72%, rgba(216, 154, 61, 0.12), transparent 28%),
+    linear-gradient(145deg, #131a26 0%, #0b1018 52%, #070a10 100%);
   color: #f1e8d5;
 }
 
 .hero::before {
   content: "";
-  position: absolute;
-  inset: 0;
+  position: sticky;
+  top: 0;
+  display: block;
+  height: 100vh;
+  margin-bottom: -100vh;
   background-image:
-    linear-gradient(to right, rgba(150, 171, 206, 0.09) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(150, 171, 206, 0.09) 1px, transparent 1px);
-  background-size: 86px 86px;
-  mask-image: radial-gradient(circle at center, black 35%, transparent 85%);
-  opacity: 0.7;
+    linear-gradient(to right, rgba(150, 171, 206, 0.055) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(150, 171, 206, 0.04) 1px, transparent 1px);
+  background-size: 92px 92px;
+  mask-image: radial-gradient(circle at 62% 42%, black 26%, transparent 78%);
+  opacity: 0.72;
+  transform: translateY(calc(var(--hero-progress) * -42px));
+}
+
+.hero::after {
+  content: none;
 }
 
 .hero-noise {
-  position: absolute;
-  inset: 0;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  height: 100vh;
+  margin-bottom: -100vh;
   background:
     radial-gradient(circle at 50% 30%, rgba(255, 255, 255, 0.03), transparent 35%),
     radial-gradient(circle at 85% 75%, rgba(255, 255, 255, 0.025), transparent 20%);
@@ -345,20 +512,24 @@ svg {
 }
 
 .hero-background {
-  position: absolute;
-  inset: 0;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  margin-bottom: -100vh;
   z-index: 1;
   overflow: hidden;
   pointer-events: none;
 }
 
-.hero-graph {
+.hero-neural {
   position: absolute;
   inset: 0;
-  opacity: 0.8;
+  opacity: calc(0.98 - var(--hero-progress) * 0.58);
+  transform: scale(calc(1 + var(--hero-progress) * 0.08));
+  transform-origin: 68% 38%;
 }
 
-.hero-graph svg {
+.hero-neural canvas {
   width: 100%;
   height: 100%;
 }
@@ -368,18 +539,20 @@ svg {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 50% 40%, transparent 0%, rgba(11, 16, 24, 0.18) 56%, rgba(11, 16, 24, 0.72) 100%),
-    linear-gradient(90deg, rgba(11, 16, 24, 0.72) 0%, rgba(11, 16, 24, 0.36) 30%, rgba(11, 16, 24, 0.2) 60%, rgba(11, 16, 24, 0.54) 100%);
+    radial-gradient(circle at 66% 42%, transparent 0%, rgba(11, 16, 24, 0.12) 46%, rgba(7, 10, 16, 0.72) 100%),
+    linear-gradient(90deg, rgba(7, 10, 16, 0.82) 0%, rgba(11, 16, 24, 0.42) 34%, rgba(11, 16, 24, 0.16) 64%, rgba(7, 10, 16, 0.58) 100%),
+    linear-gradient(180deg, rgba(7, 10, 16, 0.18) 0%, rgba(7, 10, 16, 0.04) 42%, rgba(7, 10, 16, 0.66) 100%);
   pointer-events: none;
 }
 
 .hero-inner {
-  position: relative;
+  position: sticky;
+  top: 0;
   z-index: 3;
   width: min(var(--maxw), calc(100% - 48px));
   margin: 0 auto;
   padding: 176px 0 70px;
-  min-height: 100vh;
+  height: 100vh;
   display: flex;
   align-items: center;
 }
@@ -387,7 +560,29 @@ svg {
 .hero-copy {
   position: relative;
   max-width: 760px;
+  opacity: clamp(0, calc(1.22 - var(--hero-progress) * 2.25), 1);
+  transform: translate3d(0, calc(var(--hero-progress) * -82px), 0);
+  transition: opacity 120ms linear, transform 120ms linear;
 }
+
+.hero-scroll-cue {
+  position: sticky;
+  top: calc(100vh - 130px);
+  z-index: 4;
+  width: min(var(--maxw), calc(100% - 48px));
+  margin: 0 auto;
+  padding-bottom: 56px;
+  opacity: clamp(0, calc((var(--hero-progress) - 0.34) * 2.5), 0.78);
+  transform: translateY(calc((1 - var(--hero-progress)) * 34px));
+  pointer-events: none;
+}
+
+.hero-scroll-cue-line {
+  width: min(420px, 42vw);
+  height: 1px;
+  background: linear-gradient(90deg, rgba(216, 154, 61, 0.7), rgba(241, 232, 213, 0));
+}
+
 
 .hero-copy .eyebrow {
   margin-bottom: 24px;
@@ -535,7 +730,23 @@ svg {
 }
 
 .narrative {
-  padding-top: 104px;
+  position: relative;
+  z-index: 4;
+  margin-top: -34vh;
+  padding-top: calc(104px + 34vh);
+  --section-enter: linear-gradient(180deg, rgba(246, 240, 228, 0) 0%, rgba(251, 247, 239, 0.62) 72%, rgba(251, 247, 239, 0) 100%);
+  --section-exit: linear-gradient(180deg, rgba(251, 247, 239, 0) 0%, rgba(241, 234, 217, 0.72) 100%);
+  --section-line: rgba(156, 98, 24, 0.08);
+  background:
+    linear-gradient(180deg, rgba(246, 240, 228, 0) 0%, rgba(246, 240, 228, 0.92) 28vh, rgba(246, 240, 228, 0) 58vh);
+}
+
+.journey {
+  --section-enter: linear-gradient(180deg, rgba(241, 234, 217, 0.58), rgba(251, 247, 239, 0));
+  --section-exit: linear-gradient(180deg, rgba(251, 247, 239, 0), rgba(17, 22, 31, 0.16));
+  --section-line: rgba(143, 180, 214, 0.12);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(241, 234, 217, 0.34));
 }
 
 .narrative-grid {
@@ -684,8 +895,12 @@ svg {
 }
 
 .awards {
+  --section-enter: linear-gradient(180deg, rgba(241, 234, 217, 0.18), rgba(18, 24, 36, 0));
+  --section-exit: linear-gradient(180deg, rgba(18, 24, 36, 0), rgba(246, 240, 228, 0.2));
+  --section-line: rgba(216, 154, 61, 0.12);
   background:
-    radial-gradient(circle at top right, rgba(216, 154, 61, 0.12), transparent 28%),
+    linear-gradient(115deg, rgba(143, 180, 214, 0.06), transparent 42%),
+    linear-gradient(245deg, rgba(216, 154, 61, 0.08), transparent 38%),
     linear-gradient(180deg, #121824 0%, #0d121a 100%);
   color: #eee5d2;
 }
@@ -745,8 +960,12 @@ svg {
 }
 
 .work {
+  --section-enter: linear-gradient(180deg, rgba(13, 18, 26, 0.14), rgba(246, 240, 228, 0));
+  --section-exit: linear-gradient(180deg, rgba(251, 247, 239, 0), rgba(143, 180, 214, 0.12));
+  --section-line: rgba(34, 40, 58, 0.08);
   background:
-    radial-gradient(circle at 14% 16%, rgba(143, 180, 214, 0.1), transparent 18%),
+    linear-gradient(135deg, rgba(143, 180, 214, 0.1), transparent 34%),
+    linear-gradient(320deg, rgba(216, 154, 61, 0.07), transparent 30%),
     linear-gradient(180deg, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0) 100%);
 }
 
@@ -1157,8 +1376,12 @@ svg {
 }
 
 .contact {
+  --section-enter: linear-gradient(180deg, rgba(143, 180, 214, 0.12), rgba(251, 247, 239, 0));
+  --section-exit: linear-gradient(180deg, rgba(251, 247, 239, 0), rgba(17, 22, 31, 0.1));
+  --section-line: rgba(156, 98, 24, 0.08);
   background:
-    radial-gradient(circle at 12% 18%, rgba(216, 154, 61, 0.1), transparent 16%),
+    linear-gradient(120deg, rgba(216, 154, 61, 0.08), transparent 30%),
+    linear-gradient(260deg, rgba(143, 180, 214, 0.1), transparent 34%),
     linear-gradient(180deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0));
 }
 
@@ -1280,11 +1503,31 @@ svg {
 }
 
 .site-footer {
+  --section-progress: 0;
+  position: relative;
   padding: 34px 0 54px;
   border-top: 1px solid rgba(34, 40, 58, 0.08);
+  overflow: clip;
+  background:
+    linear-gradient(180deg, rgba(17, 22, 31, 0.06), rgba(246, 240, 228, 0) 58%);
+}
+
+.site-footer::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 100%;
+  background:
+    linear-gradient(90deg, transparent 0%, rgba(143, 180, 214, 0.08) 48%, rgba(216, 154, 61, 0.08) 52%, transparent 100%);
+  opacity: clamp(0.12, calc(var(--section-progress) * 0.32), 0.32);
+  pointer-events: none;
 }
 
 .footer-inner {
+  position: relative;
+  z-index: 1;
   width: min(var(--maxw), calc(100% - 48px));
   margin: 0 auto;
   display: flex;
@@ -1300,6 +1543,53 @@ svg {
   font-size: 11px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
+}
+
+/* ── BACKGROUND DEPTH & MOTION ── */
+
+/* Organic drift on ambient orbs — purely CSS, GPU-composited */
+@keyframes sa-drift-a {
+  0%, 100% { transform: translate(-50%, -50%) scale(1);    }
+  25%       { transform: translate(-54%, -46%) scale(1.06); }
+  50%       { transform: translate(-47%, -53%) scale(0.95); }
+  75%       { transform: translate(-52%, -49%) scale(1.02); }
+}
+@keyframes sa-drift-b {
+  0%, 100% { transform: translate(-50%, -50%) scale(1);    }
+  25%       { transform: translate(-46%, -54%) scale(0.95); }
+  50%       { transform: translate(-53%, -47%) scale(1.05); }
+  75%       { transform: translate(-49%, -52%) scale(0.98); }
+}
+.sa-a { animation: sa-drift-a 26s ease-in-out infinite; }
+.sa-b { animation: sa-drift-b 32s ease-in-out infinite; }
+
+/* Awards-specific ambient — brighter to register on dark bg */
+.awards .sa-a { background: radial-gradient(circle, rgba(143,180,214,0.16) 0%, transparent 65%); }
+.awards .sa-b { background: radial-gradient(circle, rgba(216,154,61,0.11)  0%, transparent 65%); }
+
+/* Parallaxing dot-mesh — scroll-driven via JS, very faint */
+.section-mesh {
+  position: absolute;
+  inset: -8% -4%;
+  pointer-events: none;
+  z-index: 0;
+  background-image: radial-gradient(circle, rgba(34,40,58,0.05) 1px, transparent 1.2px);
+  background-size: 34px 34px;
+  will-change: transform;
+  transition: transform 200ms linear;
+}
+.awards .section-mesh {
+  background-image: radial-gradient(circle, rgba(150,171,206,0.07) 1px, transparent 1.2px);
+}
+
+/* Timeline dots pulse gently after reveal */
+@keyframes dot-pulse {
+  0%, 100% { box-shadow: 0 0 0 0   rgba(143,180,214,0),    0 0 0 1px rgba(34,40,58,0.12); }
+  50%       { box-shadow: 0 0 0 7px rgba(143,180,214,0.15), 0 0 0 1px rgba(34,40,58,0.12); }
+}
+.timeline-row.reveal.is-visible::before {
+  animation: dot-pulse 3.4s ease-in-out infinite;
+  animation-delay: 400ms;
 }
 
 @media (max-width: 1080px) {
@@ -1466,7 +1756,7 @@ svg {
 
   .hero {
     margin-top: -60px;
-    min-height: auto;
+    min-height: 185vh;
     background:
       radial-gradient(circle at 12% 18%, rgba(143, 180, 214, 0.2), transparent 24%),
       radial-gradient(circle at 82% 34%, rgba(216, 154, 61, 0.14), transparent 28%),
@@ -1474,10 +1764,11 @@ svg {
   }
 
   .hero-inner {
-    min-height: 660px;
+    height: 100vh;
+    min-height: 0;
     align-items: flex-start;
-    padding-top: 138px;
-    padding-bottom: 52px;
+    padding-top: 120px;
+    padding-bottom: 40px;
   }
 
   .hero-copy {
@@ -1490,8 +1781,8 @@ svg {
 
   .hero-title-role {
     min-width: 100%;
-    min-height: 3em;
-    font-size: clamp(2.65rem, 14.6vw, 4rem);
+    min-height: 2.25em;
+    font-size: clamp(2.4rem, 13.4vw, 3.55rem);
   }
 
   .hero-title-role-text {
@@ -1500,34 +1791,43 @@ svg {
 
   .hero-sub {
     max-width: 100%;
-    margin-top: 22px;
+    margin-top: 18px;
     color: rgba(241, 232, 213, 0.86);
   }
 
   .hero-background {
-    inset: 0;
     transform: none;
     opacity: 1;
   }
 
-  .hero-graph {
-    opacity: 0.86;
+  .hero-neural {
+    opacity: 0.9;
   }
 
-  .hero-graph svg {
+  .hero-neural canvas {
     width: 100%;
     height: 100%;
   }
 
-  .hero #node-graph .network-node.center circle.main {
-    opacity: 0.36;
-  }
-
   .hero-background::after {
     background:
-      radial-gradient(circle at 58% 44%, transparent 0%, rgba(11, 16, 24, 0.08) 46%, rgba(11, 16, 24, 0.62) 100%),
-      linear-gradient(180deg, rgba(11, 16, 24, 0.16) 0%, rgba(11, 16, 24, 0.04) 34%, rgba(11, 16, 24, 0.62) 100%),
-      linear-gradient(90deg, rgba(11, 16, 24, 0.42) 0%, rgba(11, 16, 24, 0.08) 34%, rgba(11, 16, 24, 0.18) 100%);
+      radial-gradient(circle at 58% 42%, transparent 0%, rgba(11, 16, 24, 0.1) 38%, rgba(11, 16, 24, 0.68) 100%),
+      linear-gradient(180deg, rgba(11, 16, 24, 0.24) 0%, rgba(11, 16, 24, 0.06) 34%, rgba(11, 16, 24, 0.72) 100%),
+      linear-gradient(90deg, rgba(11, 16, 24, 0.62) 0%, rgba(11, 16, 24, 0.16) 44%, rgba(11, 16, 24, 0.3) 100%);
+  }
+
+  .hero-scroll-cue {
+    top: calc(100vh - 104px);
+    padding-bottom: 38px;
+  }
+
+  .hero-scroll-cue-line {
+    width: 56vw;
+  }
+
+  .narrative {
+    margin-top: -18vh;
+    padding-top: calc(82px + 18vh);
   }
 }
 
@@ -1545,10 +1845,23 @@ svg {
     scroll-behavior: auto !important;
   }
 
-  .reveal {
-    opacity: 1;
-    transform: none;
+  .reveal,
+  .timeline-row.reveal,
+  .contact-panel.reveal,
+  .summary-point,
+  .chip,
+  .contact-copy .interest,
+  .ticker-shell {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+    animation: none !important;
   }
+  .reveal .eyebrow::before { width: 26px !important; transition: none !important; }
+  .awards .ticker-shell    { opacity: 1 !important; transform: none !important; }
+  .sa-a, .sa-b             { animation: none !important; }
+  .section-mesh            { transform: none !important; transition: none !important; }
+  .timeline-row.reveal.is-visible::before { animation: none !important; }
 }
 </style>
 </head>
@@ -1575,8 +1888,8 @@ svg {
 <header class="hero" id="top">
   <div class="hero-noise"></div>
   <div class="hero-background" aria-hidden="true">
-    <div class="hero-graph">
-      <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" id="node-graph"></svg>
+    <div class="hero-neural">
+      <canvas id="neural-hero"></canvas>
     </div>
   </div>
   <div class="hero-inner">
@@ -1595,6 +1908,9 @@ svg {
         <a class="button-link" href="#journey">My journey</a>
       </div>
     </div>
+  </div>
+  <div class="hero-scroll-cue" aria-hidden="true">
+    <div class="hero-scroll-cue-line"></div>
   </div>
 </header>
 
@@ -1653,7 +1969,7 @@ svg {
     </div>
   </section>
 
-  <section class="section" id="journey">
+  <section class="section journey" id="journey">
     <div class="container">
       <div class="section-head reveal">
         <p class="eyebrow">Journey</p>
@@ -2044,289 +2360,408 @@ svg {
     }
   }
 
-  const graphSvg = document.getElementById("node-graph");
-  if (graphSvg) {
-    const NS = "http://www.w3.org/2000/svg";
+  const neuralCanvas = document.getElementById("neural-hero");
+  if (neuralCanvas) {
     const hero = document.getElementById("top");
-    const isCompactGraph = window.matchMedia("(max-width: 720px)").matches;
-    const graphBounds = isCompactGraph
-      ? { width: 390, height: 720 }
-      : { width: 1440, height: 900 };
-    graphSvg.setAttribute("viewBox", "0 0 " + graphBounds.width + " " + graphBounds.height);
-    graphSvg.classList.toggle("is-compact", isCompactGraph);
+    const ctx = neuralCanvas.getContext("2d");
+    const nodes = [
+      // weight ∝ duration: 4yr=1.75, 3yr=1.30, 2yr=1.05, 1.5yr=0.82, 1yr=0.62, 0.25yr=0.42
+      { id: "btech",      label: "B.Tech · DTU",   x: 0.56, y: 0.22, tone: "steel", weight: 1.75 }, // 4 yr
+      { id: "samsung",    label: "Samsung R&D",     x: 0.76, y: 0.15, tone: "steel", weight: 1.05 }, // 2 yr
+      { id: "compiler",   label: "Compiler Opt.",   x: 0.91, y: 0.30, tone: "steel", weight: 0.68 }, // sub-role
+      { id: "ieee",       label: "IEEE · UAV",      x: 0.89, y: 0.52, tone: "steel", weight: 0.62 }, // 1 yr
+      { id: "iim",        label: "IIM Bangalore",   x: 0.67, y: 0.40, tone: "amber", weight: 1.05 }, // 2 yr
+      { id: "kearney",    label: "Kearney",         x: 0.82, y: 0.67, tone: "amber", weight: 0.42 }, // 3 mo
+      { id: "ow",         label: "Oliver Wyman",    x: 0.60, y: 0.77, tone: "amber", weight: 1.10 }, // 2 yr
+      { id: "recursion",  label: "Recursion Acad.", x: 0.45, y: 0.57, tone: "sage",  weight: 1.30 }, // 3 yr
+      { id: "bookscroll", label: "Bookscroll",      x: 0.50, y: 0.75, tone: "sage",  weight: 0.82 }  // 1.5 yr
+    ];
+    const edges = [
+      ["btech", "samsung"],
+      ["btech", "recursion"],
+      ["btech", "ieee"],
+      ["samsung", "compiler"],
+      ["samsung", "iim"],
+      ["compiler", "iim"],
+      ["ieee", "iim"],
+      ["iim", "kearney"],
+      ["iim", "recursion"],
+      ["kearney", "ow"],
+      ["recursion", "bookscroll"],
+      ["bookscroll", "ow"]
+    ];
+    const tones = {
+      steel: { fill: "143,180,214", line: "120,166,205" },
+      amber: { fill: "216,154,61", line: "216,154,61" },
+      sage: { fill: "184,201,159", line: "164,189,148" },
+      core: { fill: "241,232,213", line: "241,232,213" }
+    };
+    const nodeMap = new Map(nodes.map((node) => [node.id, node]));
+    const signals = edges.map((edge, index) => ({
+      edge,
+      speed: 0.055 + (index % 5) * 0.011,
+      phase: index * 0.13
+    }));
+    const particles = Array.from({ length: 58 }, () => ({
+      x: Math.random(),
+      y: Math.random(),
+      size: 0.4 + Math.random() * 1.1,
+      speed: 0.000018 + Math.random() * 0.000032,
+      phase: Math.random() * Math.PI * 2,
+      opacity: 0.10 + Math.random() * 0.20
+    }));
+    let width = 0;
+    let height = 0;
+    let pixelRatio = 1;
+    let scrollProgress = 0;
+    let targetScrollProgress = 0;
+    let animationFrame = null;
+    let lastTime = 0;
 
-    const desktopNodes = [
-      {
-        id: "compiler",
-        x: 265,
-        y: 250,
-        label: "Compilers",
-        theme: "tech",
-      },
-      {
-        id: "camera",
-        x: 205,
-        y: 430,
-        label: "Camera AI",
-        theme: "tech",
-      },
-      {
-        id: "uav",
-        x: 330,
-        y: 630,
-        label: "Research",
-        theme: "tech",
-      },
-      {
-        id: "startup",
-        x: 525,
-        y: 755,
-        label: "Ventures",
-        theme: "build",
-      },
-      {
-        id: "payments",
-        x: 1125,
-        y: 255,
-        label: "Payments",
-        theme: "strategy",
-      },
-      {
-        id: "bank",
-        x: 1220,
-        y: 430,
-        label: "Central Banks",
-        theme: "strategy",
-      },
-      {
-        id: "roadmap",
-        x: 1090,
-        y: 635,
-        label: "Roadmaps",
-        theme: "strategy",
-      },
-      {
-        id: "growth",
-        x: 905,
-        y: 760,
-        label: "Growth",
-        theme: "strategy",
-      },
-      {
-        id: "center",
-        x: 720,
-        y: 455,
-        label: "Systems",
-        theme: "center",
+    function clamp(value, min, max) {
+      return Math.min(max, Math.max(min, value));
+    }
+
+    function resizeNeuralCanvas() {
+      const bounds = neuralCanvas.getBoundingClientRect();
+      pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+      width = Math.max(1, Math.round(bounds.width));
+      height = Math.max(1, Math.round(bounds.height));
+      neuralCanvas.width = Math.round(width * pixelRatio);
+      neuralCanvas.height = Math.round(height * pixelRatio);
+      ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+    }
+
+    function updateScrollProgress() {
+      if (!hero) return;
+      const rect = hero.getBoundingClientRect();
+      const range = Math.max(1, rect.height - window.innerHeight);
+      targetScrollProgress = clamp(-rect.top / range, 0, 1);
+      if (prefersReducedMotion) scrollProgress = targetScrollProgress;
+    }
+
+    function nodePoint(node, time) {
+      const compact = width < 720;
+      const drift = prefersReducedMotion ? 0 : Math.sin(time * 0.00016 + node.weight * 3.6) * 5;
+      const lift = scrollProgress * (compact ? 92 : 154) * node.weight;
+      const stageShift = scrollProgress * (compact ? 18 : 86);
+      const spread = compact ? 0.66 : 1;
+      const centerPull = compact ? 0.5 : 0;
+      return {
+        x: width * (node.x * spread + centerPull * (1 - spread)) + drift + stageShift,
+        y: height * node.y - lift + Math.cos(time * 0.00013 + node.weight * 2.4) * 4
+      };
+    }
+
+    function drawBackground(time) {
+      ctx.clearRect(0, 0, width, height);
+      const t = time * 0.0001;
+
+      // Primary ambient glow (steel/blue) — slowly drifts
+      const glowX = width * (0.58 + Math.sin(t * 0.7) * 0.06 + scrollProgress * 0.08);
+      const glowY = height * (0.44 - Math.cos(t * 0.5) * 0.04 - scrollProgress * 0.08);
+      const glow = ctx.createRadialGradient(glowX, glowY, 0, glowX, glowY, Math.max(width, height) * 0.56);
+      glow.addColorStop(0, "rgba(143,180,214,0.18)");
+      glow.addColorStop(0.38, "rgba(143,180,214,0.06)");
+      glow.addColorStop(1, "rgba(7,10,16,0)");
+      ctx.fillStyle = glow;
+      ctx.fillRect(0, 0, width, height);
+
+      // Secondary ambient glow (amber)
+      const ambX = width * (0.74 + Math.cos(t * 0.6) * 0.05);
+      const ambY = height * (0.64 + Math.sin(t * 0.8) * 0.04);
+      const amb = ctx.createRadialGradient(ambX, ambY, 0, ambX, ambY, Math.max(width, height) * 0.38);
+      amb.addColorStop(0, "rgba(216,154,61,0.10)");
+      amb.addColorStop(0.5, "rgba(216,154,61,0.03)");
+      amb.addColorStop(1, "rgba(0,0,0,0)");
+      ctx.fillStyle = amb;
+      ctx.fillRect(0, 0, width, height);
+
+      // Subtle drifting particle field
+      if (!prefersReducedMotion) {
+        particles.forEach((p) => {
+          const px = ((p.x + t * p.speed * 3) % 1) * width;
+          const py = ((p.y + t * p.speed) % 1) * height;
+          const pulse = 0.68 + Math.sin(t * 2.8 + p.phase) * 0.32;
+          const alpha = p.opacity * pulse * clamp(1 - scrollProgress * 1.4, 0, 1);
+          if (alpha <= 0) return;
+          ctx.beginPath();
+          ctx.arc(px, py, p.size * pulse, 0, Math.PI * 2);
+          ctx.fillStyle = "rgba(150,171,206," + alpha.toFixed(3) + ")";
+          ctx.fill();
+        });
       }
-    ];
-    const compactNodes = [
-      {
-        id: "compiler",
-        x: 74,
-        y: 122,
-        label: "Code",
-        theme: "tech",
-      },
-      {
-        id: "camera",
-        x: 312,
-        y: 118,
-        label: "AI",
-        theme: "tech",
-      },
-      {
-        id: "uav",
-        x: 52,
-        y: 318,
-        label: "Research",
-        theme: "tech",
-      },
-      {
-        id: "startup",
-        x: 82,
-        y: 566,
-        label: "Build",
-        theme: "build",
-      },
-      {
-        id: "payments",
-        x: 330,
-        y: 258,
-        label: "Policy",
-        theme: "strategy",
-      },
-      {
-        id: "bank",
-        x: 324,
-        y: 430,
-        label: "Markets",
-        theme: "strategy",
-      },
-      {
-        id: "roadmap",
-        x: 272,
-        y: 612,
-        label: "Roadmaps",
-        theme: "strategy",
-      },
-      {
-        id: "growth",
-        x: 178,
-        y: 656,
-        label: "Growth",
-        theme: "strategy",
-      },
-      {
-        id: "center",
-        x: 204,
-        y: 396,
-        label: "Systems",
-        theme: "center",
+
+      if (scrollProgress > 0.5) {
+        const fade = clamp((scrollProgress - 0.5) / 0.5, 0, 1);
+        const paper = ctx.createLinearGradient(0, height * 0.52, 0, height);
+        paper.addColorStop(0, "rgba(246,240,228,0)");
+        paper.addColorStop(0.62, "rgba(246,240,228," + (0.18 * fade).toFixed(3) + ")");
+        paper.addColorStop(1, "rgba(246,240,228," + (0.42 * fade).toFixed(3) + ")");
+        ctx.fillStyle = paper;
+        ctx.fillRect(0, 0, width, height);
       }
-    ];
-    const nodesData = isCompactGraph ? compactNodes : desktopNodes;
-    const connections = [
-      ["compiler", "center"],
-      ["camera", "center"],
-      ["uav", "center"],
-      ["startup", "center"],
-      ["payments", "center"],
-      ["bank", "center"],
-      ["roadmap", "center"],
-      ["growth", "center"],
-      ["compiler", "camera"],
-      ["uav", "startup"],
-      ["payments", "bank"],
-      ["bank", "roadmap"],
-      ["growth", "startup"]
-    ];
-    const nodeMap = new Map(nodesData.map((node) => [node.id, node]));
-    const lineMap = new Map();
-    const groupMap = new Map();
-
-    const style = document.createElementNS(NS, "style");
-    style.textContent = [
-      ".edge{stroke:rgba(160,184,214,.12);stroke-width:1.2;transition:stroke .18s ease,opacity .18s ease,stroke-width .18s ease;opacity:.72;}",
-      ".edge.core{stroke:rgba(216,154,61,.18);}",
-      ".edge.active{stroke:rgba(216,154,61,.42);stroke-width:1.9;opacity:1;}",
-      ".network-label{font-family:'JetBrains Mono',monospace;font-size:14px;letter-spacing:.08em;fill:rgba(231,221,197,.36);text-transform:uppercase;pointer-events:none;}",
-      ".network-node circle.main{fill:#efe7d4;opacity:.55;transition:fill .18s ease,opacity .18s ease,r .18s ease;transform-origin:center;}",
-      ".network-node.tech circle.main{fill:#8fb4d6;}",
-      ".network-node.strategy circle.main{fill:#d89a3d;}",
-      ".network-node.build circle.main{fill:#b8c99f;}",
-      ".network-node.center circle.main{fill:#f1e5ce;opacity:.7;}",
-      ".network-node.active circle.main{r:20;opacity:.95;fill:#f1e5ce;}",
-      ".network-node.center circle.main{r:22;}",
-      ".network-node.active .network-label{fill:rgba(241,232,213,.72);}",
-      ".is-compact .edge{stroke-width:1;opacity:.5;}",
-      ".is-compact .edge.core{stroke:rgba(216,154,61,.22);}",
-      ".is-compact .network-label{font-size:9px;letter-spacing:.1em;fill:rgba(231,221,197,.2);}",
-      ".is-compact .network-node circle.main{opacity:.44;}",
-      ".is-compact .network-node.center circle.main{opacity:.34;}",
-      ".is-compact .network-node.active circle.main{opacity:.62;}"
-    ].join("");
-    graphSvg.appendChild(style);
-
-    const edgeLayer = document.createElementNS(NS, "g");
-    const network = document.createElementNS(NS, "g");
-    const nodeLayer = document.createElementNS(NS, "g");
-    graphSvg.appendChild(edgeLayer);
-    graphSvg.appendChild(network);
-    network.appendChild(nodeLayer);
-
-    function createLine(a, b, className, key) {
-      const line = document.createElementNS(NS, "line");
-      line.setAttribute("x1", a.x);
-      line.setAttribute("y1", a.y);
-      line.setAttribute("x2", b.x);
-      line.setAttribute("y2", b.y);
-      line.setAttribute("class", className);
-      line.dataset.key = key;
-      return line;
     }
 
-    function createNode(node) {
-      const group = document.createElementNS(NS, "g");
-      group.setAttribute("class", "network-node " + node.theme);
-      group.dataset.id = node.id;
+    function drawEdge(from, to, active, progress, toneName) {
+      const fromTone = tones[toneName];
+      const exitFade = 1 - clamp((scrollProgress - 0.54) / 0.36, 0, 0.88);
+      const cpX = (from.x + to.x) / 2 + (to.y - from.y) * 0.06;
+      const cpY = (from.y + to.y) / 2 - (to.x - from.x) * 0.035;
 
-      const circle = document.createElementNS(NS, "circle");
-      circle.setAttribute("class", "main");
-      circle.setAttribute("cx", node.x);
-      circle.setAttribute("cy", node.y);
-      circle.setAttribute("r", node.id === "center" ? 22 : 10);
-      group.appendChild(circle);
+      // Bloom glow pass for active edges
+      if (active) {
+        ctx.beginPath();
+        ctx.moveTo(from.x, from.y);
+        ctx.quadraticCurveTo(cpX, cpY, to.x, to.y);
+        ctx.strokeStyle = "rgba(" + fromTone.line + "," + (0.11 * exitFade).toFixed(3) + ")";
+        ctx.lineWidth = 5;
+        ctx.stroke();
+      }
 
-      const text = document.createElementNS(NS, "text");
-      text.setAttribute("x", node.x);
-      text.setAttribute("y", node.id === "center" ? node.y + 44 : node.y - 18);
-      text.setAttribute("text-anchor", "middle");
-      text.setAttribute("class", "network-label");
-      text.textContent = node.label;
-      group.appendChild(text);
+      // Base edge line
+      ctx.beginPath();
+      ctx.moveTo(from.x, from.y);
+      ctx.quadraticCurveTo(cpX, cpY, to.x, to.y);
+      ctx.strokeStyle = "rgba(" + fromTone.line + "," + ((active ? 0.38 : 0.13) * exitFade).toFixed(3) + ")";
+      ctx.lineWidth = active ? 1.5 : 0.8;
+      ctx.stroke();
 
-      return group;
+      if (prefersReducedMotion) return;
+
+      // Comet trail — 8 samples fading toward the head
+      const trailLen = 0.11;
+      const steps = 8;
+      const head = (progress + scrollProgress * 0.42) % 1;
+      for (let i = 0; i < steps; i++) {
+        const ratio = i / (steps - 1);
+        const tPos = (head - (1 - ratio) * trailLen + 1) % 1;
+        const s = 1 - tPos;
+        const px = s * s * from.x + 2 * s * tPos * cpX + tPos * tPos * to.x;
+        const py = s * s * from.y + 2 * s * tPos * cpY + tPos * tPos * to.y;
+        const alpha = ratio * ratio * (active ? 0.72 : 0.48) * exitFade;
+        const r = (0.8 + ratio * (active ? 2.4 : 1.6));
+        ctx.beginPath();
+        ctx.arc(px, py, r, 0, Math.PI * 2);
+        ctx.fillStyle = "rgba(241,232,213," + alpha.toFixed(3) + ")";
+        ctx.fill();
+      }
+
+      // Bright leading head glow
+      const hs = 1 - head;
+      const headX = hs * hs * from.x + 2 * hs * head * cpX + head * head * to.x;
+      const headY = hs * hs * from.y + 2 * hs * head * cpY + head * head * to.y;
+      const headR = active ? 15 : 9;
+      const pulse = ctx.createRadialGradient(headX, headY, 0, headX, headY, headR);
+      pulse.addColorStop(0, "rgba(255,246,224," + (0.92 * exitFade).toFixed(3) + ")");
+      pulse.addColorStop(0.28, "rgba(" + fromTone.fill + "," + (0.50 * exitFade).toFixed(3) + ")");
+      pulse.addColorStop(1, "rgba(" + fromTone.fill + ",0)");
+      ctx.fillStyle = pulse;
+      ctx.beginPath();
+      ctx.arc(headX, headY, headR, 0, Math.PI * 2);
+      ctx.fill();
     }
 
-    connections.forEach(([fromId, toId]) => {
-      const from = nodeMap.get(fromId);
-      const to = nodeMap.get(toId);
-      const key = [fromId, toId].sort().join(":");
-      const line = createLine(from, to, toId === "center" || fromId === "center" ? "edge core" : "edge", key);
-      lineMap.set(key, line);
-      edgeLayer.appendChild(line);
-    });
+    function drawNode(node, point, time) {
+      const tone = tones[node.tone];
+      const isCore = node.tone === "core";
+      const exitFade = 1 - clamp((scrollProgress - 0.54) / 0.36, 0, 0.86);
+      const radius = ((isCore ? 19 : 9) + node.weight * 2.5 + scrollProgress * (isCore ? 7 : 3)) * exitFade;
+      const breathe = prefersReducedMotion ? 0 : Math.sin(time * 0.0008 + node.weight * 4) * 1.3;
 
-    nodesData.forEach((node) => {
-      const group = createNode(node);
-      groupMap.set(node.id, group);
-      nodeLayer.appendChild(group);
-    });
+      // Outer ambient halo
+      ctx.beginPath();
+      ctx.arc(point.x, point.y, radius * 5 + breathe * 5, 0, Math.PI * 2);
+      ctx.fillStyle = "rgba(" + tone.fill + "," + ((isCore ? 0.055 : 0.028) * exitFade).toFixed(3) + ")";
+      ctx.fill();
 
-    function setActiveNode(id) {
-      const activeNode = nodeMap.get(id) || nodeMap.get("center");
-      groupMap.forEach((group, groupId) => {
-        group.classList.toggle("active", groupId === activeNode.id);
+      // Mid glow
+      ctx.beginPath();
+      ctx.arc(point.x, point.y, radius * 2.8 + breathe * 2.5, 0, Math.PI * 2);
+      ctx.fillStyle = "rgba(" + tone.fill + "," + ((isCore ? 0.11 : 0.058) * exitFade).toFixed(3) + ")";
+      ctx.fill();
+
+      // Pulsing sonar ring
+      if (!prefersReducedMotion) {
+        const sonarPhase = (time * 0.00048 + node.weight * 2.1) % 1;
+        const sonarR = (radius + breathe) * (1.6 + sonarPhase * 5);
+        const sonarAlpha = Math.pow(1 - sonarPhase, 1.6) * (isCore ? 0.26 : 0.16) * exitFade;
+        if (sonarAlpha > 0.002) {
+          ctx.beginPath();
+          ctx.arc(point.x, point.y, sonarR, 0, Math.PI * 2);
+          ctx.strokeStyle = "rgba(" + tone.fill + "," + sonarAlpha.toFixed(3) + ")";
+          ctx.lineWidth = isCore ? 1.5 : 1;
+          ctx.stroke();
+        }
+      }
+
+      // Rotating orbit ellipse for core node
+      if (isCore && !prefersReducedMotion) {
+        const orbitAngle = time * 0.00026;
+        ctx.save();
+        ctx.translate(point.x, point.y);
+        ctx.rotate(orbitAngle);
+        ctx.beginPath();
+        ctx.ellipse(0, 0, radius * 2.4, radius * 0.72, 0, 0, Math.PI * 2);
+        ctx.strokeStyle = "rgba(241,232,213," + (0.16 * exitFade).toFixed(3) + ")";
+        ctx.lineWidth = 1;
+        ctx.stroke();
+        ctx.restore();
+      }
+
+      // Inner filled node
+      ctx.beginPath();
+      ctx.arc(point.x, point.y, radius + breathe, 0, Math.PI * 2);
+      ctx.fillStyle = "rgba(" + tone.fill + "," + ((isCore ? 0.88 : 0.72) * exitFade).toFixed(3) + ")";
+      ctx.fill();
+
+      // Ring border
+      ctx.beginPath();
+      ctx.arc(point.x, point.y, radius + breathe + 5.5, 0, Math.PI * 2);
+      ctx.strokeStyle = "rgba(" + tone.fill + "," + ((isCore ? 0.36 : 0.20) * exitFade).toFixed(3) + ")";
+      ctx.lineWidth = isCore ? 1.5 : 1;
+      ctx.stroke();
+
+      // Labels
+      if (width < 640 && !isCore) return;
+      ctx.font = (isCore ? "11px" : "10px") + " JetBrains Mono, ui-monospace, monospace";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+
+      if (isCore) {
+        // Connector line then label below
+        const labelY = point.y + radius + breathe + 22;
+        ctx.beginPath();
+        ctx.moveTo(point.x, point.y + radius + breathe + 6);
+        ctx.lineTo(point.x, labelY - 8);
+        ctx.strokeStyle = "rgba(241,232,213," + (0.22 * exitFade).toFixed(3) + ")";
+        ctx.lineWidth = 1;
+        ctx.stroke();
+        ctx.fillStyle = "rgba(231,221,197," + (0.74 * exitFade).toFixed(3) + ")";
+        ctx.fillText(node.label.toUpperCase(), point.x, labelY);
+      } else {
+        ctx.fillStyle = "rgba(231,221,197," + (0.46 * exitFade).toFixed(3) + ")";
+        ctx.fillText(node.label.toUpperCase(), point.x, point.y - radius - breathe - 14);
+      }
+    }
+
+    function drawNeuralScene(time) {
+      if (!lastTime) lastTime = time;
+      updateScrollProgress();
+      scrollProgress += (targetScrollProgress - scrollProgress) * 0.075;
+      if (Math.abs(targetScrollProgress - scrollProgress) < 0.001) scrollProgress = targetScrollProgress;
+      hero.style.setProperty("--hero-progress", scrollProgress.toFixed(4));
+      hero.style.setProperty("--hero-exit", clamp((scrollProgress - 0.18) / 0.42, 0, 1).toFixed(4));
+      drawBackground(time);
+
+      const points = new Map(nodes.map((node) => [node.id, nodePoint(node, time)]));
+      signals.forEach((signal) => {
+        const fromNode = nodeMap.get(signal.edge[0]);
+        const toNode = nodeMap.get(signal.edge[1]);
+        const active = signal.edge.includes("system") || scrollProgress > signal.phase * 0.72;
+        const progress = (time * 0.00008 * signal.speed * 20 + signal.phase) % 1;
+        drawEdge(points.get(fromNode.id), points.get(toNode.id), active, progress, fromNode.tone);
       });
+      nodes.forEach((node) => drawNode(node, points.get(node.id), time));
 
-      lineMap.forEach((line, key) => {
-        const isRelated = key.split(":").includes(activeNode.id);
-        line.classList.toggle("active", isRelated);
-        line.style.opacity = isRelated ? "1" : "0.38";
+      if (!prefersReducedMotion) {
+        animationFrame = window.requestAnimationFrame(drawNeuralScene);
+      }
+    }
+
+    resizeNeuralCanvas();
+    updateScrollProgress();
+    drawNeuralScene(0);
+    window.addEventListener("resize", () => {
+      resizeNeuralCanvas();
+      drawNeuralScene(performance.now());
+    }, { passive: true });
+    window.addEventListener("scroll", () => {
+      updateScrollProgress();
+      if (prefersReducedMotion) drawNeuralScene(performance.now());
+    }, { passive: true });
+    window.addEventListener("pagehide", () => {
+      if (animationFrame) window.cancelAnimationFrame(animationFrame);
+    });
+  }
+
+  const flowSections = Array.from(document.querySelectorAll("main .section, .site-footer"));
+  if (flowSections.length) {
+    let sectionFlowFrame = null;
+
+    function flowClamp(value, min, max) {
+      return Math.min(max, Math.max(min, value));
+    }
+
+    function updateSectionFlow() {
+      const viewportHeight = window.innerHeight || 1;
+      flowSections.forEach((section) => {
+        const rect = section.getBoundingClientRect();
+        const travel = rect.height + viewportHeight * 0.76;
+        const progress = flowClamp((viewportHeight * 0.88 - rect.top) / travel, 0, 1);
+        section.style.setProperty("--section-progress", progress.toFixed(4));
+        const saA = section.querySelector(".sa-a");
+        const saB = section.querySelector(".sa-b");
+        if (saA && saB) {
+          saA.style.left = (26 + progress * 48).toFixed(1) + "%";
+          saA.style.top  = (12 + progress * 68).toFixed(1) + "%";
+          saB.style.left = (74 - progress * 28 + Math.sin(progress * Math.PI) * 14).toFixed(1) + "%";
+          saB.style.top  = (88 - progress * 58).toFixed(1) + "%";
+        }
+        const mesh = section.querySelector(".section-mesh");
+        if (mesh) {
+          mesh.style.transform = "translateY(" + ((0.5 - progress) * 64).toFixed(1) + "px)";
+        }
       });
     }
 
-    if (!prefersReducedMotion && hero) {
-      hero.addEventListener("pointermove", (event) => {
-        const bounds = hero.getBoundingClientRect();
-        const offsetX = ((event.clientX - bounds.left) / bounds.width - 0.5) * 18;
-        const offsetY = ((event.clientY - bounds.top) / bounds.height - 0.5) * 18;
-        network.setAttribute("transform", "translate(" + offsetX.toFixed(2) + "," + offsetY.toFixed(2) + ")");
+    function requestSectionFlowUpdate() {
+      if (sectionFlowFrame) return;
+      sectionFlowFrame = window.requestAnimationFrame(() => {
+        sectionFlowFrame = null;
+        updateSectionFlow();
+      });
+    }
 
-        const px = ((event.clientX - bounds.left) / bounds.width) * graphBounds.width;
-        const py = ((event.clientY - bounds.top) / bounds.height) * graphBounds.height;
+    updateSectionFlow();
+    window.addEventListener("scroll", requestSectionFlowUpdate, { passive: true });
+    window.addEventListener("resize", requestSectionFlowUpdate, { passive: true });
+  }
 
-        let nearestId = "center";
-        let nearestDistance = Infinity;
-        nodesData.forEach((node) => {
-          const distance = Math.hypot(node.x - px, node.y - py);
-          if (distance < nearestDistance) {
-            nearestDistance = distance;
-            nearestId = node.id;
+  // Inject ambient orbs + parallax mesh into all main sections
+  if (!prefersReducedMotion) {
+    document.querySelectorAll(".narrative, .journey, .awards, .work, .contact").forEach(function (section) {
+      const amb = document.createElement("div");
+      amb.className = "section-ambient";
+      amb.setAttribute("aria-hidden", "true");
+      amb.innerHTML = '<div class="sa-a"></div><div class="sa-b"></div>';
+      section.insertBefore(amb, section.firstChild);
+      amb.querySelector(".sa-a").style.cssText = "left:26%;top:12%";
+      amb.querySelector(".sa-b").style.cssText = "left:74%;top:88%";
+      const mesh = document.createElement("div");
+      mesh.className = "section-mesh";
+      mesh.setAttribute("aria-hidden", "true");
+      section.insertBefore(mesh, section.firstChild);
+    });
+  }
+
+  // Awards ticker entrance
+  const awardsSection = document.querySelector(".awards");
+  if (awardsSection && !prefersReducedMotion) {
+    const awardsObserver = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("in-view");
+            awardsObserver.unobserve(entry.target);
           }
         });
-
-        setActiveNode(nearestDistance < 220 ? nearestId : "center");
-      });
-
-      hero.addEventListener("pointerleave", () => {
-        network.setAttribute("transform", "translate(0,0)");
-        setActiveNode("center");
-      });
-    }
-
-    setActiveNode("center");
+      },
+      { threshold: 0.18 }
+    );
+    awardsObserver.observe(awardsSection);
+  } else if (awardsSection) {
+    awardsSection.classList.add("in-view");
   }
 
   const contactForm = document.getElementById("contact-form");
