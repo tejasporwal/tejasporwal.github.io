@@ -1497,9 +1497,27 @@ svg {
   box-shadow: 0 0 0 4px rgba(216, 154, 61, 0.12);
 }
 
+.contact-form button[disabled] {
+  cursor: wait;
+  opacity: 0.68;
+  transform: none;
+}
+
+.contact-form .form-trap {
+  display: none;
+}
+
 .contact-note {
   color: var(--muted);
   font-size: 0.95rem;
+}
+
+.contact-note.success {
+  color: #2f6547;
+}
+
+.contact-note.error {
+  color: #9f3a2f;
 }
 
 .site-footer {
@@ -2166,7 +2184,8 @@ svg {
             </div>
           </div>
 
-          <form class="contact-form" id="contact-form">
+          <form class="contact-form" id="contact-form" action="https://formspree.io/f/xykoyqdk" method="POST">
+            <input class="form-trap" type="text" name="_gotcha" tabindex="-1" autocomplete="off" />
             <label>
               Name
               <input type="text" name="name" placeholder="Your name" required />
@@ -2768,22 +2787,54 @@ svg {
   const contactNote = document.getElementById("contact-note");
 
   if (contactForm) {
-    contactForm.addEventListener("submit", function (event) {
+    const contactSubmit = contactForm.querySelector('button[type="submit"]');
+    const defaultSubmitLabel = contactSubmit ? contactSubmit.textContent : "Send";
+
+    contactForm.addEventListener("submit", async function (event) {
       event.preventDefault();
       const formData = new FormData(contactForm);
       const name = (formData.get("name") || "").toString().trim();
       const email = (formData.get("email") || "").toString().trim();
-      const message = (formData.get("message") || "").toString().trim();
+      formData.set("_subject", "Website inquiry from " + (name || "portfolio visitor"));
+      formData.set("_replyto", email);
 
-      const subject = encodeURIComponent("Website inquiry from " + name);
-      const body = encodeURIComponent(
-        "Name: " + name + "\n" +
-        "Email: " + email + "\n\n" +
-        message
-      );
+      if (contactNote) {
+        contactNote.textContent = "";
+        contactNote.className = "contact-note";
+      }
 
-      window.location.href = "mailto:tporwal542@gmail.com?subject=" + subject + "&body=" + body;
-      contactNote.textContent = "A draft message should open in your mail app.";
+      if (contactSubmit) {
+        contactSubmit.disabled = true;
+        contactSubmit.textContent = "Sending...";
+      }
+
+      try {
+        const response = await fetch(contactForm.action, {
+          method: "POST",
+          body: formData,
+          headers: { Accept: "application/json" }
+        });
+
+        if (!response.ok) {
+          throw new Error("Form submission failed");
+        }
+
+        contactForm.reset();
+        if (contactNote) {
+          contactNote.textContent = "Thanks. Your message has been sent.";
+          contactNote.classList.add("success");
+        }
+      } catch (error) {
+        if (contactNote) {
+          contactNote.textContent = "Something went wrong. Please try again in a moment.";
+          contactNote.classList.add("error");
+        }
+      } finally {
+        if (contactSubmit) {
+          contactSubmit.disabled = false;
+          contactSubmit.textContent = defaultSubmitLabel;
+        }
+      }
     });
   }
 })();
